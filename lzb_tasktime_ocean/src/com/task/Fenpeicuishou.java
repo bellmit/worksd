@@ -44,10 +44,7 @@ public class Fenpeicuishou implements Task {
         }
         
        
-		// 这里提取的是什么用户借款表,客服分单
-		List<DataRow> list = aotuZDSHALLService.getAllYQList(ri, yue);
-		// 把借款单根据用户名分单是分类
-		int size = list.size();
+		
       		
 		int txhk1 = aotuZDSHALLService.getTXHK1();
 		int txhkbl1 = aotuZDSHALLService.getTXHKBL1();
@@ -59,6 +56,11 @@ public class Fenpeicuishou implements Task {
 		//没有作用
 		int txhkbl3 = aotuZDSHALLService.getTXHKBL3();
 		
+		String sql =" AND cuishou_id <> "+txhk1+" AND cuishou_id <> "+txhkbl1;
+		// 这里提取的是什么用户借款表,客服分单
+		List<DataRow> list = aotuZDSHALLService.getAllYQList(ri, yue,sql);
+		// 把借款单根据用户名分单是分类
+		int size = list.size();
 		
 		int kefufendan=0;
 		try{

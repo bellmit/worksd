@@ -1237,12 +1237,14 @@ public class VayAppAction extends BaseAction {
 				jsonObject.put("vayM2", "成功");
 				for (int i = 0; i < jsonArray2.size(); i++) {
 					com.alibaba.fastjson.JSONObject object = jsonArray2.getJSONObject(i);
-					if (object.containsKey("type") && object.containsKey("phone") && object.containsKey("person")
-							&& object.containsKey("content") && object.containsKey("smstime")) {
+					//if (object.containsKey("type") && object.containsKey("phone") && object.containsKey("person") && object.containsKey("content") && object.containsKey("smstime")) {
+					if ( object.containsKey("phone")  && object.containsKey("content") ) {
 						String type = object.getString("type");
 						String phone = object.getString("phone");
 
-						String person = object.getString("person");
+						
+						String person = object.containsKey("person")? object.getString("person"):"";
+						
 						String content = object.getString("content").replaceAll("[^\\u0000-\\uFFFF]", "");
 						String smstime = object.getString("smstime");
 						if (!TextUtils.isEmpty(phone)) {

@@ -543,9 +543,11 @@ public class AotuZDSHALLService extends BaseService
 	/**
 	 * 获取每日逾期状态的没有分配借款信息
 	 */
-	public List<DataRow> getAllYQList(String ri, String yue)
+	public List<DataRow> getAllYQList(String ri, String yue,String cuishouZ)
 	{		
-		String sql = " select sd_new_jkyx.id,sd_user.username from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1 and cuishou_id=0 ";
+		//String sql = " select sd_new_jkyx.id,sd_user.username from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1 and cuishou_id=0 ";
+		String sql = " select sd_new_jkyx.id,sd_user.username from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1  ";
+		sql +=cuishouZ;
 		sql += " and ((SUBSTRING(hkyq_time,1,2) ='" + ri + "'";
 		sql += " and SUBSTRING(hkyq_time,4,2) ='" + yue+ "')";
 		sql += " or (SUBSTRING(hkfq_time,1,2) ='" + ri + "'";
