@@ -44,19 +44,36 @@ public class Fenpeicuishou implements Task {
         }
         
        
-		
-      		
+		int cuishouid_num = 0;
+        String sql =" ";	
 		int txhk1 = aotuZDSHALLService.getTXHK1();
+		if(txhk1 > 0) {
+			sql +=" AND cuishou_id <> "+txhk1+" ";
+			cuishouid_num++;
+		}
 		int txhkbl1 = aotuZDSHALLService.getTXHKBL1();
+		if(txhkbl1 > 0) {
+			sql +=" AND cuishou_id <> "+txhkbl1+" ";
+			cuishouid_num++;
+		}
 		int txhk2 = aotuZDSHALLService.getTXHK2();
+		if(txhk2 > 0) {
+			sql +=" AND cuishou_id <> "+txhk2+" ";
+			cuishouid_num++;
+		}
 		int txhkbl2 = aotuZDSHALLService.getTXHKBL2();
+		if(txhkbl2 > 0) {
+			sql +=" AND cuishou_id <> "+txhkbl2+" ";
+			cuishouid_num++;
+		}
+		
 		int txhk3 = aotuZDSHALLService.getTXHK3();	
 		//客服人员
 		int txhk4 = aotuZDSHALLService.getTXHK4();
 		//没有作用
 		int txhkbl3 = aotuZDSHALLService.getTXHKBL3();
 		
-		String sql =" AND cuishou_id <> "+txhk1+" AND cuishou_id <> "+txhkbl1;
+		
 		// 这里提取的是什么用户借款表,客服分单
 		List<DataRow> list = aotuZDSHALLService.getAllYQList(ri, yue,sql);
 		// 把借款单根据用户名分单是分类
@@ -69,12 +86,18 @@ public class Fenpeicuishou implements Task {
 				int cuishou = 8888;
 				String username = dataRow.getString("username");								
 				
-				cuishou = txhk1;
-				if(kefufendan%2==0) {
+				
+				if(kefufendan%cuishouid_num==0) {
 					cuishou = txhk1;
-				}else {
+				}else if(kefufendan%cuishouid_num==1) {
 				    cuishou = txhkbl1;	
-				}	
+				}else if(kefufendan%cuishouid_num==2) {
+				    cuishou = txhk2;	
+				}else if(kefufendan%cuishouid_num==3) {
+				    cuishou = txhkbl2;	
+				}else {
+					cuishou = txhk1;
+				}
 				
 				int jkid = dataRow.getInt("id");
 				DataRow row11 = new DataRow();
