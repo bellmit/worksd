@@ -463,11 +463,25 @@ public class JBDcmsAction extends BaseAction {
 			DataRow dr = jbdcmsService.getUserByNameAndPwd(phone, resPWD);
 			if (dr != null && !dr.isEmpty()) {
 				if (dr.getInt("state") == 0) {
+					DataRow row = new DataRow();
+					row.set("ip", ip);
+					row.set("createtime", new Date());
+					row.set("phone", phone);
+					row.set("result", "Bị cấm đăng nhập, vui lòng liên hệ IT！");
+					jbdcmsService.insertCmsIP(row);
+					
 					jsonObject.put("code", -1);
 					jsonObject.put("error", "Bị cấm đăng nhập, vui lòng liên hệ IT！");
 					this.getWriter().write(jsonObject.toString());
 					return null;
 				}
+				
+				DataRow row = new DataRow();
+				row.set("ip", ip);
+				row.set("createtime", new Date());
+				row.set("phone", phone);
+				row.set("result", "登录成功");
+				jbdcmsService.insertCmsIP(row);
 
 				jsonObject.put("code", 0);
 				jsonObject.put("error", "登录成功");
@@ -1858,6 +1872,15 @@ public class JBDcmsAction extends BaseAction {
 			JSONObject object = JSONObject.fromBean(row);
 			this.getWriter().write(object.toString());
 			return null;
+		}
+	}
+	
+	public static void main(String []arg) {
+		try {
+			jbdcmsService.updateJkIsDown(888, 23839+"");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

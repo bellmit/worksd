@@ -1,5 +1,6 @@
 package com.project.service.account;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -668,8 +669,9 @@ public class JBDcmsService extends BaseService {
 	}
 
 	public void updateJkIsDown(int userId,String colId) throws Exception {
-
-		String sql = "UPDATE sd_new_jkyx SET cl_status = 3,cl_ren= "+userId+" WHERE id = "+colId;
+		SimpleDateFormat fmtrq = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		
+		String sql = "UPDATE sd_new_jkyx SET cl_status = 3,cl_yj = 'XÓA BỎ' ,cl_ren= "+userId+",cl_time= '"+fmtrq.format(new Date())+"' WHERE id = "+colId;
 		getJdbcTemplate().update(sql);
 	}
 	
