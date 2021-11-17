@@ -3282,10 +3282,10 @@ public class JBDcmsService extends BaseService {
 				return getJdbcTemplate().queryString(sql);
 			}
 			
-		 public Integer getuserPhotoJKid(String useridmm) {
+		 public Integer getuserPhotoJKid(String userid) {
 
 				StringBuffer sb = new StringBuffer();
-				sb.append("    SELECT id FROM sd_new_jkyx WHERE (( cl_status=0 AND cl02_status=0 AND cl03_status=0  ) OR ( cl_status=1 AND cl02_status=0 AND cl03_status=0  ) OR ( cl_status=1 AND cl02_status=1 AND cl03_status=0  )  ) AND userid=" + useridmm);
+				sb.append("    SELECT id FROM sd_new_jkyx WHERE (( cl_status=0 AND cl02_status=0 AND cl03_status=0  ) OR ( cl_status=1 AND cl02_status=0 AND cl03_status=0  ) OR ( cl_status=1 AND cl02_status=1 AND cl03_status=0  )  ) AND userid=" + userid);
 				return getJdbcTemplate().queryInt(sb.toString());
 			}
 		 
@@ -3323,13 +3323,46 @@ public class JBDcmsService extends BaseService {
 			}
 			
 			//上传视频借款ID
-			public Integer getuservideoJKid(String useridmm) {
+			public Integer getuservideoJKid(String userid) {
 
 				StringBuffer sb = new StringBuffer();
-				sb.append("    SELECT id FROM sd_new_jkyx WHERE cl_status=1 AND cl02_status=1 AND cl03_status=0 AND spzt=0 AND userid=" + useridmm);
+				sb.append("    SELECT id FROM sd_new_jkyx WHERE cl_status=1 AND cl02_status=1 AND cl03_status=0 AND spzt=0 AND userid=" + userid);
 				return getJdbcTemplate().queryInt(sb.toString());
 			}
 			public void updateUserLoadVideo(DataRow data){
 		  	 getJdbcTemplate().update("sd_new_jkyx", data, "id", data.getString("id"));
 		   }
+			
+			 public DBPage GetUpdateUserinfoPage(int curPage, int numPerPage, int userid, String startDate, String endDate) {
+					// TODO Auto-generated method stub
+					String sql ="SELECT id ,mobilephone,islianxi,isshenfen,yhbd FROM sd_user WHERE id ="+userid;
+					
+					return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
+				}
+				
+				 /**
+				 * 插入数--all tabel model
+				 * @param tableName
+				 * @param row
+				 */
+				public void insertTableAll(String tableName,DataRow row) {
+					getJdbcTemplate().insert(tableName, row);
+			    }
+				
+				
+				public void updatesd_ALL(String tableName,DataRow row,String id, String rowStr) throws Exception {
+
+					 //getJdbcTemplate5().update("sd_csmsg", row, "id", row.getString("id"));
+					getJdbcTemplate().update(tableName, row,id, rowStr);
+				 }
+				
+				/**
+				 * 评级规则： 31 正常上班时间； 32 周六上班时间；  33 延长时间
+				 * @param index
+				 * @return
+				 */
+				public DataRow getpingjiguize(int index) {
+					String  sql ="  SELECT * FROM sd_pingjiguize WHERE id = " +index;
+					return getJdbcTemplate().queryMap(sql);
+				}
 }

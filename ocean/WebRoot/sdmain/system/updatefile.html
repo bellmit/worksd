@@ -12,6 +12,15 @@ a:hover {text-decoration: none;}
 </style>
 
 
+<script type="text/javascript" src="/assets/js/jquery.rotate.js">
+    </script>
+<script type="text/javascript" src="/plugins/date_page/page.js">
+</script>
+<script type="text/javascript" src="/assets/js/jsbn.js">
+</script>
+<script type="text/javascript" src="/assets/js/rsa.js">
+</script>
+
 
 <div  class="container">
     <!-- ，头导向 -->
@@ -20,12 +29,12 @@ a:hover {text-decoration: none;}
 	      <li>
 	        <i class="icon-home">
 	        </i>
-	        <a href="/indexCmscn.html">
+	        <a href="/indexCms.html">
 	        </a>
 	      </li>
 	      <li class="current">
-	        <a href="/indexCmscn.html" title="" id="aa">
-	        		Tải lên ảnh /video(上传文件)
+	        <a href="/indexCms.html" title="" id="aa">
+	        		Tải lên ảnh /video(上传文件) 
 	        </a>
 	      </li>
 	    </ul>
@@ -38,15 +47,16 @@ a:hover {text-decoration: none;}
                 <div class="widget-header">
                     <h4>
                         <i class="fa fa-reorder"></i>
-                          	 Tải lên ảnh /video(上传文件)
+                           Tải lên ảnh /video(上传文件)
                     </h4>
                    
                 </div>
+                 
                 <div class="widget-content">
                    
 
 			              <div class="modal-body">
-			                <div class="bootbox-body"  style="height: 600px;">
+			                <div class="bootbox-body"  style="">
 			                   <div class="col-md-12">
 			                      <div class="widget box">
 			                          <div class="widget-header">
@@ -84,7 +94,7 @@ a:hover {text-decoration: none;}
 			                                  
 			                                  <div class="form-group">
 			                                      <div class="col-md-9"  id="container">
-			                                        <label id="col-md-3 control-label">Tải lên ảnh /video：</label>
+			                                        <label id="col-md-3 control-label">Tải lên ảnh /video：：</label>
 			                                           <a id="selectfiles" href="javascript:void(0);" class='btn'>Chọn tệp tải lên</a>
 			                                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			                                          <a  id="postfiles"   href="javascript:void(0);" class='btn'>Tải lên</a>
@@ -99,10 +109,332 @@ a:hover {text-decoration: none;}
 			                  </div>
 			              </div>
 			          </div>
-                </div>
+			     </div> 
+			   </div>
+          </div>
+	     </div> 
+			  
+	     <div class="row">
+        <div class="col-md-12">
+        <div class="widget box">
+                  
+			  <div class="widget-content">
+                <div class="row" style="margin-top: 10px;">
+		            <div class="col-md-12">
+		              <div class="widget box">
+		                <div class="widget-header">
+		                  <h4>
+		                    <i class="fa fa-reorder">
+		                    </i>
+		                                        Thay đổi thông tin người dùng
+		                  </h4>
+		                </div>
+		                <div class="widget-content">
+		                  
+						  <div>
+						     <input type="hidden" id="cupage" value="1"/>
+							 <input type="hidden" id="total" value="1"/>
+							
+                             <input type="hidden" id="starTime" value=""/>
+                             <input type="hidden" id="endTime" value=""/>
+						  </div>
+		                    <div class="form-group">
+								<div>
+	                                 <div class="col-md-6">
+	                                     <label class="col-md-3 control-label">Mã số khách hàng：</label>
+	                                     <input type="text" name="userid" id="userid" style="width:200px; height:40px;" placeholder="Xin nhập điều kiện tìm kiếm">
+	                                 </div>
+	                             </div>            
+				                  <button id="btn-load" class="btn btn-primary" data-loading-text="loading...">
+				                                     Tìm kiếm
+				                  </button>
+		                    </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+		        </div>
+		        
+                
+                <div class="row">
+		            <div class="col-md-12">
+		              <div class="widget box">
+		                <div class="widget-header">
+		                    <i class="fa fa-reorder">
+		                    </i>
+		                                 Danh sách người dùng
+		                </div>
+		                <div class="widget-content">
+		                  <table class="table table-hover table-striped table-bordered table-highlight-head">
+		                    <thead>
+		                      <tr>
+		                        <th>
+		                          Mã số khách hàng
+		                        </th>
+		                        <th>
+		                          Tên khách hàng
+		                        </th>
+		                        <th>
+		                        Số ĐTDĐ
+		                        </th>
+		                        <th>
+		                          Xác nhận nhân thân
+		                        </th>
+		                        <th>
+		                          Xác nhận ngân hàng
+		                        </th>
+                                <th>
+		                          Xác nhận người liên hệ
+		                        </th>
+		                      </tr>
+		                    </thead>
+		                    <tbody id="load_data">
+		                      
+		                    </tbody>
+		                  </table>
+		                 
+ <div class="row"><div class="dataTables_footer clearfix"><div class="col-md-6"><div class="dataTables_info" id="DataTables_Table_0_info">Tổng số<font id="totalrows"></font> tin，mỗi trang chứa được <font id="numperpage"></font> tin，hiện tại trang số<font id="currentpage"></font> / <font id="totalpages"></font>Trang</div></div><div class="col-md-6"><div class="dataTables_paginate paging_bootstrap" id="datatable"></div></div></div></div>
+
+
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+                
+                
+                
             </div>
         </div>
     </div>
+</div>    
+ 
+ 
+  <!--用户信息显示-->
+      <div id="bathc_grade_html" style="display: none;">
+        <div class="modal-backdrop fade in"></div>
+        <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog" style="padding-top: 8%;">
+                <div class="modal-content" style=" width:800px;">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" onclick="$('#bathc_grade_html').hide()">×</button>
+                        <h4 class="modal-title"><span id="update_name"></span>Thông tin người dùng</h4>
+                    </div>
+                    <div class="modal-body">
+                          <div class="bootbox-body"  style="height:335px;">
+                             <div class="col-md-12">
+                                <div class="widget box" style="float:right; width:700px;">
+                                    <div class="widget-content" style="padding:15px;">
+                                        <form class="form-horizontal row-border" >
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Mã số khách hàng：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="sf_userid" id="sf_userid" readonly >
+                                                  </div>
+                                              </div>
+                                             
+                                             <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Họ tên ：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text"  style="width:500px; height:40px;" name="sf_realname" id="sf_realname" >
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Số CMND：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text"  style="width:500px; height:40px;" name="sf_idno" id="sf_idno" >
+                                                  </div>
+                                              </div>
+
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Ngày sinh nhật：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text"  style="width:500px; height:40px;" name="sf_age" id="sf_age" >
+                                                  </div>
+                                              </div>
+                                            
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label"> địa chỉ gia đình：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                    <input type="text" style="width:500px; height:40px;" name="sf_address" id="sf_address" >
+                                                  </div>
+                                              </div>
+                                              
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-bb-handler="success" type="button" class="btn btn-success" onclick="sub_shenfen()">Xác nhận</button>
+                        <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#bathc_grade_html').hide()">Đóng trang</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+     </div>
+        
+    <!--用户信息显示 bank-->
+      <div id="bathc_grade_bank_html" style="display: none;">
+        <div class="modal-backdrop fade in"></div>
+        <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog" style="padding-top: 8%;">
+                <div class="modal-content" style=" width:800px;">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" onclick="$('#bathc_grade_html').hide()">×</button>
+                        <h4 class="modal-title"><span id="update_name"></span>Thông tin người dùng</h4>
+                    </div>
+                    <div class="modal-body">
+                          <div class="bootbox-body"  style="height:335px;">
+                             <div class="col-md-12">
+                                <div class="widget box" style="float:right; width:700px;">
+                                    <div class="widget-content" style="padding:15px;">
+                                        <form class="form-horizontal row-border" >
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Mã số khách hàng：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="bk_userid" id="bk_userid" readonly >
+                                                  </div>
+                                              </div>
+                                              
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Họ tên ：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="bk_realname" id="bk_realname" >
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Số TK ngân hàng：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="bk_bankid" id="bk_bankid" >
+                                                  </div>
+                                              </div>
+
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Tên ngân hàng：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="bk_bankname" id="bk_bankname" >
+                                                  </div>
+                                              </div>
+                                              
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-bb-handler="success" type="button" class="btn btn-success" onclick="sub_bank()">Xác nhận</button>
+                        <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#bathc_grade_bank_html').hide()">Đóng trang</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+     </div>
+        
+        
+    <!--用户信息显示 concat-->
+      <div id="bathc_grade_concat_html" style="display: none;">
+        <div class="modal-backdrop fade in"></div>
+        <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog" style="padding-top: 8%;">
+                <div class="modal-content" style=" width:800px;">
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" onclick="$('#bathc_grade_html').hide()">×</button>
+                        <h4 class="modal-title"><span id="update_name"></span>Thông tin người dùng</h4>
+                    </div>
+                    <div class="modal-body">
+                          <div class="bootbox-body" >
+                             <div class="col-md-12">
+                                <div class="widget box" style="float:right;">
+                                    <div class="widget-content" style="padding:15px;">
+                                        <form class="form-horizontal row-border" >
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Mã số khách hàng：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_userid" id="ct_userid" readonly >
+                                                  </div>
+                                              </div>
+                                              
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Người liên hệ 1 ：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_name_1" id="ct_lianxi_name_1" >
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label"> Người liên hệ 2：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_name_2" id="ct_lianxi_name_2" >
+                                                  </div>
+                                              </div>
+
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">	Quan hệ 1：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_gx_1" id="ct_lianxi_gx_1" >
+                                                  </div>
+                                              </div>
+                                              
+                                              <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">Quan hệ 2 ：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_gx_2" id="ct_lianxi_gx_2" >
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label"> Số ĐTDĐ 1：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_phone_1" id="ct_lianxi_phone_1" >
+                                                  </div>
+                                              </div>
+
+                                               <div class="form-group" id="has-grade2">
+                                            <label class="col-md-3 control-label">	Số ĐTDĐ 2：
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" style="width:500px; height:40px;" name="ct_lianxi_phone_2" id="ct_lianxi_phone_2" >
+                                                  </div>
+                                              </div>
+                                              
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-bb-handler="success" type="button" class="btn btn-success" onclick="sub_concat()">Xác nhận</button>
+                        <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#bathc_grade_concat_html').hide()">Đóng trang</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+     </div>
+ 
+ 
 
 </div>
 
@@ -127,8 +459,212 @@ a:hover {text-decoration: none;}
   $("#filetype").val(filetype);
   $("#fileUrl").val("/servlet/current/JBDcmsAction?function=GetUploadUpdatefile");
   
-  console.log("fileUrl"+$("#fileUrl").val());
+
+  $("#btn-load").on("click", function() {
+	
+		var a = $(this);
+		a.button("loading");
+		$("#cupage").val("1");
+		load_data();
+	
+	});
   
+  function load_data(){
+	 
+	  var tempsele= "";  //$("#tempselect").val();
+	  var tempval= "";  //$("#tempVelue").val();
+	  if(tempsele!=null && tempsele!=0)
+	  {
+		  if(tempval=="")
+		  {
+			  alert("Vui lòng nhập dữ liệu truy vấn");
+			  $("#btn-load").button("reset");
+			  return;
+		  }
+	  }
+
+	  var starTime= "";  //$("#starTime").val();
+	  var endTime= "";  //$("#endTime").val();
+	  var para={curPage:$("#cupage").val(),temp:tempsele,tempvl:tempval,startDate:starTime,endDate:endTime,userid:$("#userid").val()};
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfoPage",para,function(data){
+		  $("#load_data").html("");
+		  
+			//if(data.error > 0){
+				var list = data.list.data;
+				  var html_="";
+				  for(var i=0;i<list.length;i++){
+					  html_ += "<tr>";
+					  html_ += "<td>"+list[i].useridmm+"</td>";
+					  html_ += "<td>"+list[i].usernamemm+"</td>";
+					  html_ += "<td>"+list[i].mobilephone+"</td>";
+					  
+					  if(list[i].isshenfen == 0){
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_shenfen('"+list[i].id+"')\">Thêm vào</button></td>";
+					  }else {
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_shenfen('"+list[i].id+"')\">Thay đổi</button></td>";
+					  }
+					  
+					  if(list[i].yhbd == 0){
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_yhbd('"+list[i].id+"')\">Thêm vào</button></td>";
+					  }else {
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_yhbd('"+list[i].id+"')\">Thay đổi</button></td>";
+					  }
+					  
+					  if(list[i].islianxi == 0){
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_lianxi('"+list[i].id+"')\">Thêm vào</button></td>";
+					  }else {
+						  html_ += " <td><button class='btn btn-xs btn-info'  onclick=\"thao_tac_lianxi('"+list[i].id+"')\">Thay đổi</button></td>";
+					  }
+					  
+					  
+					  
+				  }
+			//}  
+		 $("#load_data").append(html_);
+		 $("#btn-load").button("reset");
+		//$("#tempselect").val(data.temp);
+		// $("#tempVelue").val(data.tempvalu);
+		page_value(data);
+		page_data();
+		
+		 
+	  });
+   }
+  load_data()
+  
+  // 身份信息更新 修改
+  function thao_tac_shenfen(id){
+	  
+	  var para={userid:id};
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist1",para,function(data){
+		  $("#bathc_grade_html").show();
+		  if(data.error> 0){
+			  
+			  $("#sf_userid").val(id);
+			  $("#sf_idno").val(data.idno);
+			  $("#sf_age").val(data.age);
+			  $("#sf_address").val(data.homeaddress);
+			  $("#sf_realname").val(data.realname);
+		  }	  
+	  });
+  }
+  
+  
+  function sub_shenfen(){
+	  
+	  var sf_realname = $("#sf_realname").val();
+	  var userid = $("#sf_userid").val();
+	  var sf_idno = $("#sf_idno").val();
+	  var sf_age = $("#sf_age").val();
+	  var sf_address = $("#sf_address").val();
+	  if(userid =="" || sf_realname =="" || sf_idno =="" || sf_age =="" || sf_address =="" ){
+		  alert("Vui lòng nhập dữ liệu truy vấn");
+		  return;
+	  }
+	  
+	  var para={userid:userid,idno:sf_idno,age:sf_age,address:sf_address,realname:sf_realname};
+	  
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist11",para,function(data){
+		  if(data.error> 0){
+			  $("#bathc_grade_html").hide();
+			  load_data()
+		  }else{
+			  alert(data.msg)
+		  } 
+	  });
+  }
+  
+  
+  // 银行信息更新 修改
+  function thao_tac_yhbd(id){
+	  
+	  var para={userid:id};
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist2",para,function(data){
+		  $("#bathc_grade_bank_html").show();
+		  if(data.error> 0){
+			  
+			  $("#bk_userid").val(id);
+			  $("#bk_realname").val(data.realname);
+			  $("#bk_bankid").val(data.bankid);
+			  $("#bk_bankname").val(data.bankname);
+		  }	  
+	  });
+  }
+  
+  
+  function sub_bank(){
+	  
+	  var bk_realname = $("#bk_realname").val();
+	  var userid = $("#bk_userid").val();
+	  var bk_bankid = $("#bk_bankid").val();
+	  var bk_bankname = $("#bk_bankname").val();
+	  if(userid =="" || bk_realname =="" || bk_bankid =="" || bk_bankname =="" ){
+	  		  alert("Vui lòng nhập dữ liệu truy vấn");
+	  		  return;
+	  }
+	  
+	  var para={userid:userid,realname:bk_realname,bankid:bk_bankid,bankname:bk_bankname};
+	  
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist21",para,function(data){
+		  if(data.error> 0){
+			  $("#bathc_grade_bank_html").hide();
+			  load_data()
+		  }else{
+			  alert(data.msg)
+		  } 
+	  });
+  }
+  
+  
+  
+  // 联系人信息更新 修改
+  function thao_tac_lianxi(id){
+	  
+	  var para={userid:id};
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist3",para,function(data){
+		  $("#bathc_grade_concat_html").show();
+		  if(data.error> 0){
+			  
+			  $("#ct_userid").val(id);
+			  $("#ct_lianxi_name_1").val(data.contact1);
+			  $("#ct_lianxi_name_2").val(data.contact2);
+			  $("#ct_lianxi_gx_1").val(data.guanxi1);
+			  $("#ct_lianxi_gx_2").val(data.guanxi2);
+			  $("#ct_lianxi_phone_1").val(data.tel1);
+			  $("#ct_lianxi_phone_2").val(data.tel2);
+		  }	  
+	  });
+  }
+  
+  
+  function sub_concat(){
+	  
+	  
+	  var userid = $("#ct_userid").val();
+	  var contact1 = $("#ct_lianxi_name_1").val();
+	  var contact2 = $("#ct_lianxi_name_2").val();
+	  var tel1 = $("#ct_lianxi_phone_1").val();
+	  var tel2 = $("#ct_lianxi_phone_2").val();
+	  var guanxi1 = $("#ct_lianxi_gx_1").val();
+	  var guanxi2 = $("#ct_lianxi_gx_2").val();
+	  
+	  
+	  if(userid =="" || contact1 =="" || contact2 =="" || tel1 =="" 
+			|| tel2 =="" || guanxi1 =="" || guanxi2 =="" ){
+	  		  alert("Vui lòng nhập dữ liệu truy vấn");
+	  		  return;
+	  }
+	  
+	  var para={userid:userid,contact1:contact1,contact2:contact2,tel1:tel1,tel2:tel2,guanxi1:guanxi1,guanxi2:guanxi2};
+	  
+	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfolist31",para,function(data){
+		  if(data.error> 0){
+			  $("#bathc_grade_concat_html").hide();
+			  load_data()
+		  }else{
+			  alert(data.msg)
+		  }
+	  });
+  }
   </script>
   
-	

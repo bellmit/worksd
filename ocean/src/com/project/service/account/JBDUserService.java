@@ -1469,4 +1469,8 @@ public class JBDUserService extends BaseService {
 			return getJdbcTemplate().queryInt(sb.toString());
 		}
 	
+		public DataRow  getsd_yingxiao_phone_normalRow(String phone){
+			String sql =" SELECT  * FROM sd_yingxiao_phone_normal WHERE  phone ='"+phone+"'" ;	
+		    return getJdbcTemplate().queryMap(sql);
+		}
 }

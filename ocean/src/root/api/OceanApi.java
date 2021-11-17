@@ -345,12 +345,41 @@ public class OceanApi extends BaseAction {
 				jsonObject.put("oceanM", "Login Success");// 账号已注册，直接登录
 				jsonObject.put("isRegister", 1);// 账号已注册，直接登录
 				logger.info("账号已注册，直接登录");
+				
+				//  添加登录时间
+				String userid = jdbUserService.getIdByPhone(phone);
+				DataRow data = new DataRow();
+				data.set("lastIP", ip);
+				data.set("lastDate", lastDate);
+				jdbUserService.updateUser(userid, data);
+							
 				this.getWriter().write(jsonObject.toString());
 				return null;
 			}
 
 			String table = "sd_user";
 			DataRow data = new DataRow();
+			int  user_mark = 0;
+			DataRow prow_normal = jdbUserService.getsd_yingxiao_phone_normalRow(phone);
+			if(prow_normal != null) {
+				int product_type = prow_normal.getInt("product_type");
+				int data_type = prow_normal.getInt("data_type");
+				if(20==product_type) {
+					user_mark = 20;   // 营销较好
+					data.set("refferee", "A"+" ("+data_type+")");
+					
+					if(!prow_normal.getString("loan_money").equals("") || prow_normal.getString("product_remark").equals("E") ) {
+						data.set("refferee", "A+"+" ("+data_type+")");
+					}
+				}else if(30==product_type) {
+					user_mark = 30;   // 营销正常
+					data.set("refferee", "B");
+				}
+				logger.info(phone+" refferee:"+product_type); 
+				
+			}
+			data.set("user_mark", user_mark);
+			
 			data.set("mobilePhone", phone);
 			data.set("lastIP", ip);
 			data.set("hongbao", 0);

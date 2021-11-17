@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.project.bean.ShenKeAccount;
 import com.project.service.account.AccountShenheService;
+import com.project.service.account.SaleManDataStaticsService;
 import com.project.service.role.UserService;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import com.thinkive.base.jdbc.DBPage;
@@ -38,6 +39,7 @@ public class AccountShenheAction extends BaseAction {
 	private static Logger logger= Logger.getLogger(AccountShenheAction.class);
 	private static AccountShenheService accountShenheService=new AccountShenheService();
 	private static UserService userService=new UserService();
+	private static SaleManDataStaticsService saleManService =new SaleManDataStaticsService();
 	
 	//xiong工具方法查询集合中不同小組的每天的审核老员工次数
 		public TreeMap<String, Integer> dayshenhedaycs(List<String> listshenhe1, int curPage) {
@@ -4653,6 +4655,160 @@ public class AccountShenheAction extends BaseAction {
 			}
 
 
+			/**
+		     * nan  20190625
+		             *统计营销订单成功与失败数据
+		     * @return
+		     * @throws java.text.ParseException
+		     */
+		   
+		 public ActionResult  doGetDataBySaleMan(){
+				logger.info("进入营销统计页面");
+//				 分页查询所有的后台用户
+				int temp = getIntParameter("temp",0);
+				int curPage  =getIntParameter("curPage",1);	
+				int  dataType = getIntParameter("tempvl",0);
+				String  startDate =getStrParameter("startDate");
+				String  endDate =getStrParameter("endDate");
+				String endImportDate=getStrParameter("endImportDate");
+				String startImportDate=getStrParameter("startImportDate");
+				
+				logger.info("startDate=="+startDate);
+				logger.info("endDate=="+endDate);
+				
+				int  recode =getIntParameter("recode",0);
+			    logger.info("recode :"+recode);
+		       int cmsuserid = SessionHelper.getInt("cmsuserid", getSession());
+			   DataRow maprole =accountShenheService.getSdcmsUser(cmsuserid);
+			   int cms_roleid=maprole.getInt("roleid");
 
+			   
+			   //传给前端封装数据的对象的集合
+				List<Map<String,Object>> ListPerson =new ArrayList<Map<String,Object>>();
+				
+			   int zs_total =0;
+			   int zs_total_now =0;
+			   int zs_bz_content =0;
+			   int zs_bz_content_now =0;
+			   int zs_zc_user =0;
+			   int zs_zc_user_today =0;
+			   
+			   int zs_total_order =0;
+			   int zs_success_order =0;
+			   int zs_success_repay_order =0;
+			   int zs_success_overday_order =0;
+			   
+			   int zs_today_total_order =0;
+			   int zs_today_success_order =0;
+			   int zs_today_success_repay_order =0;
+			   int zs_today_success_overday_order =0;
+			   
+			   
+			   DBPage page=saleManService.getSaleDatasPersonPage(curPage,25,dataType,startDate,endDate,startImportDate,endImportDate);
+				List<DataRow> list=page.getData();
+				for (int i=0 ;i<list.size();i++) {
+					DataRow dataRow = list.get(i);
+					String bz_ren = dataRow.getString("bz_ren");
+					int total = dataRow.getInt("total");
+					int total_now = dataRow.getInt("total_now");
+					int bz_content = dataRow.getInt("bz_content");
+					int bz_content_now = dataRow.getInt("bz_content_now");
+
+					zs_total += total;
+					zs_total_now += total_now;
+					zs_bz_content += bz_content;
+					zs_bz_content_now += bz_content_now;
+					
+					
+					
+					Map<String, Object> map = new 	HashMap<String, Object>();
+					map.put("bz_ren", bz_ren);  //备注人
+					map.put("phone_num", total);//总号码
+					map.put("today_orders", total_now); //今日添加
+					map.put("sum_remark_orders", bz_content);//总备注
+					map.put("today_remark_orders", bz_content_now);//今日备注
+					
+					int zc_user =  saleManService.geyingxiaoPhonetUserCount(dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					int zc_user_today =  saleManService.geyingxiaoPhonetUserCount(dataType,startDate,endDate,startImportDate,endImportDate,1);
+					map.put("zc_user", zc_user);//总注册
+					map.put("zc_user_today", zc_user_today);//今日注册
+					zs_zc_user += zc_user;
+					zs_zc_user_today += zc_user_today;
+					
+					map.put("total_order", 0);
+					map.put("success_order", 0);
+					map.put("success_repay_order", 0);
+					map.put("success_overday_order", 0);
+					DataRow jk_row = saleManService.geyingxiaoPhonetJKRow(dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					if(null != jk_row) {
+						map.put("total_order", jk_row.getInt("tj_num"));
+						map.put("success_order", jk_row.getInt("fk_num"));
+						map.put("success_repay_order", jk_row.getInt("hk_num"));
+						map.put("success_overday_order", jk_row.getInt("yq_num"));
+						
+						zs_total_order += jk_row.getInt("tj_num");
+						zs_success_order += jk_row.getInt("fk_num");
+						zs_success_repay_order += jk_row.getInt("hk_num");
+						zs_success_overday_order += jk_row.getInt("yq_num");
+					}
+					map.put("today_total_order", 0);
+					map.put("today_success_order", 0);
+					map.put("today_success_repay_order", 0);
+					map.put("today_success_overday_order", 0);
+					DataRow today_jk_row = saleManService.geyingxiaoPhonetJKRow(dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					if(null != today_jk_row) {
+						map.put("today_total_order", today_jk_row.getInt("tj_num"));
+						map.put("today_success_order", today_jk_row.getInt("fk_num"));
+						map.put("today_success_repay_order", today_jk_row.getInt("hk_num"));
+						map.put("today_success_overday_order", today_jk_row.getInt("yq_num"));
+						
+						zs_today_total_order += today_jk_row.getInt("tj_num");
+						zs_today_success_order += today_jk_row.getInt("fk_num");
+						zs_today_success_repay_order += today_jk_row.getInt("hk_num");
+						zs_today_success_overday_order += today_jk_row.getInt("yq_num");
+					}
+					
+					ListPerson.add(map);
+					
+				}
+				if(list.size() > 0) {
+					Map<String, Object> map = new 	HashMap<String, Object>();
+					map.put("bz_ren", "TOTAL");  //备注人
+					map.put("phone_num", zs_total);//总号码
+					map.put("today_orders", zs_total_now); //今日添加
+					map.put("sum_remark_orders", zs_bz_content);//总备注
+					map.put("today_remark_orders", zs_bz_content_now);//今日备注
+					
+					map.put("zc_user", zs_zc_user);//总注册
+					map.put("zc_user_today", zs_zc_user_today);//今日注册
+					
+					map.put("total_order", zs_total_order);
+					map.put("success_order", zs_success_order);
+					map.put("success_repay_order", zs_success_repay_order);
+					map.put("success_overday_order", zs_success_overday_order);
+					
+					map.put("today_total_order", zs_today_total_order);
+					map.put("today_success_order", zs_today_success_order);
+					map.put("today_success_repay_order", zs_today_success_repay_order);
+					map.put("today_success_overday_order", zs_today_success_overday_order);
+					
+					ListPerson.add(map);
+				}
+				
+					
+			    List<Map<String,Object>> dataTypes =saleManService.getDataTypeList();
+			    logger.info("营销统计数据:");
+			   
+			    page.setData(ListPerson);
+				DataRow row = new DataRow();
+				row.set("list", page);
+				row.set("temp",temp);
+				row.set("tempvalu",dataType);
+				row.put("dataTypes", dataTypes);
+				JSONObject object = JSONObject.fromBean(row);	
+				this.getWriter().write(object.toString());
+			 return null;
+		 }
+		
 		
 }

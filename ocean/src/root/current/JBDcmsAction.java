@@ -6174,4 +6174,624 @@ public class JBDcmsAction extends BaseAction {
 				this.getWriter().write(jsonObject.toString());
 				return null;
 			}
+		 
+			/********** 增加页面修改功能****************************/
+			/**
+			 * 
+			 * @return
+			 * @throws Exception
+			 */
+			public ActionResult doGetUpdateUserinfoPage() throws Exception {
+				logger.info("修改用户信息列表");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+				
+				int temp = getIntParameter("temp", 0);
+				String tempVelue = getStrParameter("tempvl");
+				String startDate = getStrParameter("startDate");
+				String endDate = getStrParameter("endDate");
+				int userid = getIntParameter("userid", 0);
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String time = format.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				int curPage = getIntParameter("curPage", 1);
+				DBPage page = jbdcmsService.GetUpdateUserinfoPage(curPage, 15, userid,startDate, endDate);
+
+				DataRow row = new DataRow();
+				row.set("list", page);
+				row.set("temp", temp);
+				row.set("tempvalu", tempVelue);
+				row.put("error", 1);
+				row.put("msg", "ok ");
+				JSONObject object = JSONObject.fromBean(row);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			//查找身份信息
+			public ActionResult doGetUpdateUserinfolist1() throws Exception {
+				logger.info("修改用户信息列表--身份信息");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+				
+				int temp = getIntParameter("temp", 0);
+				String tempVelue = getStrParameter("tempvl");
+				String startDate = getStrParameter("startDate");
+				String endDate = getStrParameter("endDate");
+				int userid = getIntParameter("userid", 0);
+				
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.getUserFinance(userid);
+				if(u_row != null) {
+					DataRow row = new DataRow();
+					row.set("idno", u_row.get("idno"));
+					row.set("age", u_row.get("age"));
+					row.set("homeaddress", u_row.get("homeaddress"));
+					row.set("realname", u_row.get("realname"));
+					
+					row.set("error", 1);
+				
+					JSONObject object = JSONObject.fromBean(row);
+					this.getWriter().write(object.toString());
+					return null;
+				}
+
+				DataRow row = new DataRow();
+				row.set("idno", "");
+				row.set("age", "");
+				row.set("homeaddress", "");
+				row.set("realname", "");
+				row.set("error", 1);
+				
+				JSONObject object = JSONObject.fromBean(row);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			
+			
+			//身份信息 更新
+			public ActionResult doGetUpdateUserinfolist11() throws Exception {
+				logger.info("修改用户信息列表--身份信息");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+			    
+			    DataRow row3 = jbdcmsService.getpingjiguize(19);  // 视频审核权限
+				String  time31 =row3.getString("guizebianliang1");
+				String userzu32[] = time31.split(",");
+				boolean b_user= true;
+				for(String user:userzu32) {
+					if(!"".equals(user) && !"0".equals(user) && user.contentEquals(cmsuserid+"") ) {
+						b_user = false;
+					}
+				}
+				if(b_user) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "ko dc:"+cmsuserid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;	
+				}
+
+			    String realname = getStrParameter("realname").replaceAll("&nbsp;", " ");
+				String idno = getStrParameter("idno").replaceAll("&nbsp;", " ");
+				String age = getStrParameter("age").replaceAll("&nbsp;", " ");
+				String address = getStrParameter("address").replaceAll("&nbsp;", " ");
+				
+				int userid = getIntParameter("userid", 0);
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.getUserFinance(userid);
+				if(u_row != null) {
+					if(!idno.equals("")  && !age.equals("")  && !address.equals("")  && !realname.equals("") 
+							&& idno.equals(u_row.getString("idno")) && age.equals(u_row.getString("age"))
+							&& address.equals(u_row.getString("homeaddress")) && realname.equals(u_row.getString("realname")) ) {
+						
+						DataRow row_r = new DataRow();
+						row_r.set("error", 1);
+						JSONObject object = JSONObject.fromBean(row_r);
+						this.getWriter().write(object.toString());
+						return null;
+					}else {
+						DataRow  i_row = new DataRow();
+						i_row.set("id", u_row.getString("id"));
+						i_row.set("userid", userid);
+						i_row.set("realname", realname);
+						i_row.set("idno",idno );
+						i_row.set("age",age );
+						i_row.set("homeaddress", address);
+						i_row.set("address", address);
+						jbdcmsService.updatesd_ALL("sd_user_finance",i_row,"id",i_row.getString("id"));
+						
+						
+						i_row.set("userid", userid);
+						i_row.set("realname_old", u_row.getString("realname"));
+						i_row.set("idno_old", u_row.getString("idno"));
+						i_row.set("age_old", u_row.getString("age"));
+						i_row.set("homeaddress_old", u_row.getString("homeaddress"));
+						i_row.remove("address");
+						i_row.set("cms_userid", cmsuser_id);
+						i_row.set("create_time", time);
+						jbdcmsService.insertTableAll("sd_user_finance_change_record",i_row);
+						
+						DataRow id_row = new DataRow();
+						id_row.set("id",userid);
+						id_row.set("isshenfen",1);
+						jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+						
+					}
+				}else {
+					DataRow  i_row = new DataRow();
+					i_row.set("userid", userid);
+					i_row.set("realname", realname);
+					i_row.set("idno",idno );
+					i_row.set("age",age );
+					i_row.set("homeaddress", address);
+					i_row.set("address", address);
+					jbdcmsService.insertTableAll("sd_user_finance",i_row);
+					
+					i_row.set("userid", userid);
+					i_row.remove("address");
+					i_row.set("cms_userid", cmsuser_id);
+					i_row.set("create_time", time);
+					jbdcmsService.insertTableAll("sd_user_finance_change_record",i_row);
+					
+					DataRow id_row = new DataRow();
+					id_row.set("id",userid);
+					id_row.set("isshenfen",1);
+					jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+					
+				}
+				
+				DataRow row_r = new DataRow();
+				row_r.set("error", 1);
+				JSONObject object = JSONObject.fromBean(row_r);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			
+			//查找银行信息
+			public ActionResult doGetUpdateUserinfolist2() throws Exception {
+				logger.info("修改用户信息列表--查找银行信息");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+				
+				int temp = getIntParameter("temp", 0);
+				String tempVelue = getStrParameter("tempvl");
+				String startDate = getStrParameter("startDate");
+				String endDate = getStrParameter("endDate");
+				int userid = getIntParameter("userid", 0);
+
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.personBank(userid);
+				if(u_row != null) {
+					DataRow row = new DataRow();
+					row.set("bankname", u_row.get("cardname"));
+					row.set("bankid", u_row.get("cardno"));
+					row.set("realname", u_row.get("cardusername"));
+					row.set("error", 1);
+				
+					JSONObject object = JSONObject.fromBean(row);
+					this.getWriter().write(object.toString());
+					return null;
+				}
+
+				DataRow row = new DataRow();
+				row.set("bankname", "");
+				row.set("bankid", "");
+				row.set("realname", "");
+				row.set("error", 1);
+				
+				JSONObject object = JSONObject.fromBean(row);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			
+			//银行信息 更新
+			public ActionResult doGetUpdateUserinfolist21() throws Exception {
+				logger.info("修改用户信息列表--银行信息 更新");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+			    
+			    DataRow row3 = jbdcmsService.getpingjiguize(19);  // 视频审核权限
+				String  time31 =row3.getString("guizebianliang1");
+				String userzu32[] = time31.split(",");
+				boolean b_user= true;
+				for(String user:userzu32) {
+					if(!"".equals(user) && !"0".equals(user) && user.contentEquals(cmsuserid+"") ) {
+						b_user = false;
+					}
+				}
+				if(b_user) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "ko dc:"+cmsuserid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;	
+				}
+				
+
+			    String realname = getStrParameter("realname").replaceAll("&nbsp;", " ");;
+				String bankname = getStrParameter("bankname").replaceAll("&nbsp;", " ");;
+				String bankid = getStrParameter("bankid").replaceAll("&nbsp;", " ");;
+				
+				int userid = getIntParameter("userid", 0);
+
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+				
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.personBank(userid);
+				if(u_row != null) {
+					if(!realname.equals("")  && !bankname.equals("")  && !bankid.equals("") 
+							&& bankname.equals(u_row.getString("cardname")) && bankid.equals(u_row.getString("cardno"))
+							&& realname.equals(u_row.getString("cardusername"))  ) {
+						
+						DataRow row_r = new DataRow();
+						row_r.set("error", 1);
+						JSONObject object = JSONObject.fromBean(row_r);
+						this.getWriter().write(object.toString());
+						return null;
+					}else {
+						DataRow  i_row = new DataRow();
+						i_row.set("id", u_row.getString("id"));
+						i_row.set("userid", userid);
+						i_row.set("cardname", bankname);
+						i_row.set("cardno",bankid );
+						i_row.set("cardusername",realname );
+						i_row.set("create_time",format.format(new Date()) );
+						jbdcmsService.updatesd_ALL("sd_bankcard",i_row,"id",i_row.getString("id"));
+						
+						i_row.set("cardusername_old", u_row.getString("cardusername"));
+						i_row.set("cardno_old", u_row.getString("cardno"));
+						i_row.set("cardname_old", u_row.getString("cardname"));
+						i_row.set("cms_userid", cmsuser_id);
+						i_row.set("create_time", time);
+						jbdcmsService.insertTableAll("sd_bankcard_change_record",i_row);
+						
+						DataRow id_row = new DataRow();
+						id_row.set("id",userid);
+						id_row.set("yhbd",1);
+						jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+						
+					}
+				}else {
+					DataRow  i_row = new DataRow();
+					i_row.set("userid", userid);
+					i_row.set("cardname", bankname);
+					i_row.set("cardno",bankid );
+					i_row.set("cardusername",realname );
+					i_row.set("create_time",format.format(new Date()) );
+					jbdcmsService.insertTableAll("sd_bankcard",i_row);
+					
+					i_row.set("userid", userid);
+					i_row.set("cms_userid", cmsuser_id);
+					i_row.set("create_time", time);
+					jbdcmsService.insertTableAll("sd_bankcard_change_record",i_row);
+					
+					DataRow id_row = new DataRow();
+					id_row.set("id",userid);
+					id_row.set("yhbd",1);
+					jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+					
+				}
+
+				DataRow row_r = new DataRow();
+				row_r.set("error", 1);
+				JSONObject object = JSONObject.fromBean(row_r);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			
+			
+			//查找联系人信息
+			public ActionResult doGetUpdateUserinfolist3() throws Exception {
+				logger.info("修改用户信息列表--查找联系人信息");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+				
+				int temp = getIntParameter("temp", 0);
+				String tempVelue = getStrParameter("tempvl");
+				String startDate = getStrParameter("startDate");
+				String endDate = getStrParameter("endDate");
+				int userid = getIntParameter("userid", 0);
+				
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.personLianXi(userid);
+				if(u_row != null) {
+					DataRow row = new DataRow();
+					row.set("contact1", u_row.get("contact1"));
+					row.set("contact2", u_row.get("contact2"));
+					row.set("tel1", u_row.get("tel1"));
+					row.set("tel2", u_row.get("tel2"));
+					row.set("guanxi1", u_row.get("guanxi1"));
+					row.set("guanxi2", u_row.get("guanxi2"));
+					row.set("error", 1);
+				
+					JSONObject object = JSONObject.fromBean(row);
+					this.getWriter().write(object.toString());
+					return null;
+				}
+
+				DataRow row = new DataRow();
+				row.set("contact1", "");
+				row.set("contact2", "");
+				row.set("tel1", "");
+				row.set("tel2", "");
+				row.set("guanxi1", "");
+				row.set("guanxi2", "");
+				row.set("error", 1);
+				
+				JSONObject object = JSONObject.fromBean(row);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
+			
+			
+			//联系人信息 更新
+			public ActionResult doGetUpdateUserinfolist31() throws Exception {
+				logger.info("修改用户信息列表--联系人信息 更新");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+			    int cmsuserid =  cmsuser_id;
+			    if(cmsuser_id==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+				}
+			    
+			    DataRow row3 = jbdcmsService.getpingjiguize(19);  // 视频审核权限
+				String  time31 =row3.getString("guizebianliang1");
+				String userzu32[] = time31.split(",");
+				boolean b_user= true;
+				for(String user:userzu32) {
+					if(!"".equals(user) && !"0".equals(user) && user.contentEquals(cmsuserid+"") ) {
+						b_user = false;
+					}
+				}
+				if(b_user) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "ko dc:"+cmsuserid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;	
+				}
+
+			    String contact1 = getStrParameter("contact1").replaceAll("&nbsp;", " ");;
+				String contact2 = getStrParameter("contact2").replaceAll("&nbsp;", " ");;
+				String tel1 = getStrParameter("tel1").replaceAll("&nbsp;", " ");;
+				String tel2 = getStrParameter("tel2").replaceAll("&nbsp;", " ");;
+				String guanxi1 = getStrParameter("guanxi1").replaceAll("&nbsp;", " ");;
+				String guanxi2 = getStrParameter("guanxi2").replaceAll("&nbsp;", " ");;
+				
+				int userid = getIntParameter("userid", 0);
+
+				if(userid <= 0) {
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "id error is "+userid);
+					this.getWriter().write(jsonObject.toString());	
+					return null;
+				}
+
+				logger.info("请求ID:" + cmsuserid);
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				SimpleDateFormat yMdhh = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = yMdhh.format(new Date());
+				
+				// 定义用户选择条件
+
+				// 默认第一页
+				DataRow  u_row = jbdcmsService.personLianXi(userid);
+				if(u_row != null) {
+					if(!contact1.equals("")  && !contact2.equals("")  && !tel1.equals("") 
+							&&!tel2.equals("")  && !guanxi1.equals("")  && !guanxi2.equals("") 
+							&& contact1.equals(u_row.getString("contact1")) && contact2.equals(u_row.getString("contact2"))
+							&& tel1.equals(u_row.getString("tel1")) && tel2.equals(u_row.getString("tel2"))
+							&& guanxi1.equals(u_row.getString("guanxi1")) && tel2.equals(u_row.getString("guanxi2"))) {
+						
+						DataRow row_r = new DataRow();
+						row_r.set("error", 1);
+						JSONObject object = JSONObject.fromBean(row_r);
+						this.getWriter().write(object.toString());
+						return null;
+					}else {
+						DataRow  i_row = new DataRow();
+						i_row.set("id", u_row.getString("id"));
+						i_row.set("userid", userid);
+						i_row.set("contact1", contact1);
+						i_row.set("contact2", contact2);
+						i_row.set("tel1", tel1);
+						i_row.set("tel2", tel2);
+						i_row.set("guanxi1", guanxi1);
+						i_row.set("guanxi2", guanxi2);
+						i_row.set("list", 1);
+						i_row.set("create_time",format.format(new Date()) );
+						jbdcmsService.updatesd_ALL("sd_lianxi",i_row,"id",i_row.getString("id"));
+						
+						
+						i_row.remove("list");
+						i_row.set("userid", userid);
+						i_row.set("contact1_old", u_row.get("contact1"));
+						i_row.set("contact2_old", u_row.get("contact2"));
+						i_row.set("tel1_old", u_row.get("tel1"));
+						i_row.set("tel2_old", u_row.get("tel2"));
+						i_row.set("guanxi1_old", u_row.get("guanxi1"));
+						i_row.set("guanxi2_old", u_row.get("guanxi2"));
+						i_row.set("cms_userid", cmsuser_id);
+						i_row.set("create_time", time);
+						jbdcmsService.insertTableAll("sd_lianxi_change_record",i_row);
+						
+						DataRow id_row = new DataRow();
+						id_row.set("id",userid);
+						id_row.set("islianxi",1);
+						jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+						
+					}
+				}else {
+					DataRow  i_row = new DataRow();
+					i_row.set("userid", userid);
+					i_row.set("contact1", contact1);
+					i_row.set("contact2", contact2);
+					i_row.set("tel1", tel1);
+					i_row.set("tel2", tel2);
+					i_row.set("guanxi1", guanxi1);
+					i_row.set("guanxi2", guanxi2);
+					i_row.set("list", 1);
+					i_row.set("create_time",format.format(new Date()) );
+					jbdcmsService.insertTableAll("sd_lianxi",i_row);
+					
+					i_row.remove("list");
+					i_row.set("userid", userid);
+					i_row.set("cms_userid", cmsuser_id);
+					i_row.set("create_time", time);
+					jbdcmsService.insertTableAll("sd_lianxi_change_record",i_row);
+					
+					DataRow id_row = new DataRow();
+					id_row.set("id",userid);
+					id_row.set("islianxi",1);
+					jbdcmsService.updatesd_ALL("sd_user",id_row,"id",id_row.getString("id"));
+					
+				}
+
+				DataRow row_r = new DataRow();
+				row_r.set("error", 1);
+				JSONObject object = JSONObject.fromBean(row_r);
+				this.getWriter().write(object.toString());
+				return null;
+
+			}
 }

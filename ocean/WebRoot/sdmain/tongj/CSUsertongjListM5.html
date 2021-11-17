@@ -1,0 +1,284 @@
+<style>
+    .col-md-0{
+        position: relative;
+        min-height: 1px;
+        padding-left: 15px
+    }
+    .col-md-0{
+        float: left
+    }
+    a:hover {text-decoration: none;}
+</style>
+
+<div  class="container">
+    <!-- ，头导向 -->
+	 <div class="crumbs"> 
+	    <ul id="breadcrumbs" class="breadcrumb">
+	      <li>
+	         <i class="fa fa-home"></i>
+	         <a href=""></a>
+	      </li>
+	      Thống kê tiếp thị
+	      </li>
+	    </ul>
+	  </div>
+	  
+	  <div class="widget-content">
+      <div>
+         <input type="hidden" id="cupage" value="1"/>
+         <input type="hidden" id="total" value="1"/>
+         <input type="hidden" id="cupage_" value="1"/>
+         <input type="hidden" id="total_" value="1"/>
+          <input type="hidden" id="starTime" value=""/>
+          <input type="hidden" id="endTime" value=""/>
+            <input type="hidden" id="startImportDate" value=""/>
+          <input type="hidden" id="endImportDate" value=""/>
+      </div>
+      </div>
+      
+    <!-- ，搜索区域 -->
+  <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4>
+                        <div class="widget-header">
+                    <h4>
+                        <i class="fa fa-reorder">
+                        </i>
+                         Tra xem
+                    </h4>
+                </div>
+                <div class="widget-content" style="height: 117px;width: 197%;margin-top: 2px;">
+                    <div class="form-group">
+                     
+			       <label class="col-md-0 control-label" style="padding-top:5px;">
+                                      Loại dữ liệu :     
+			            </label>
+			         <div class="col-md-3" style="width:200px;">
+			         <select class="form-control" name="select" id="dataTypeSelect">
+			          <option id="tempVelue" value="">Mời chọn----</option> 
+			         </select>
+                        </div> 
+                              </div>
+                         <label class="col-md-0 control-label" style="margin-top: -6px" >
+                        Thời gian chú thích:
+                       </label>
+			             <div class="col-md-4"  style="margin-top: -14px">
+                                <input type="text" name="regular" style="width:200px;" class="form-control datepicker" id="date1" onBlur="onb()">
+                              </div>
+               
+                        <label class="col-md-0 control-label"  style="top: -5px;right: 15%;">
+                         Thời gian nhập :
+                       </label>
+			             <div class="col-md-4"  >
+                                <input type="text" name="regular" style="margin-top: -32px;width: 200px;margin-left: 199%;margin-right: -138px;" class="form-control datepicker" id="importDate" onBlur="importDate()">
+                              </div>
+                        <button id="btn-load" class="btn btn-primary" data-loading-text="loading..." style="left: 122px;top: -15px;">
+                       Tra xem
+                        </button>
+                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <!-- ，数据区域 -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget box">
+                <div class="widget-header">
+                    <h4>
+                        <i class="fa fa-reorder"></i>
+                       Thống kê tiếp thị
+                    </h4> 
+                </div>
+                
+                <div class="widget-content">
+                    <table class="table table-hover table-striped table-bordered table-highlight-head" style="text-align:center">
+                       <thead>
+                       <tr style="text-align:center">
+                        	<th style=" font-size:14px; font-weight:bold; width:100px ;text-align:center;">
+                        				Thứ tự <!-- 序号 -->
+                        	</th> 
+                            <th style=" font-size:14px; font-weight:bold; width:100px ;text-align:center;">
+                            			ID thành viên  <!-- 催收id -->
+                            </th>
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            		Tổng số hồ sơ   <!-- 总新的用户 -->
+                            </th>
+            				<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			总备注数
+                            </th>
+              			    <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+              			    			 总注册数
+                            </th>
+                         	<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                                                                                                                                        总提交借款数
+                            </th>
+                        	<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                        				 总放款数
+                            </th> 
+                           
+                             <th style=" font-size:14px; font-weight:bold;text-align:center;" id="ll">
+                                                                                                                                    总还款数
+                            </th>
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			总逾期未还数
+                            </th> 
+                            
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			今日分配数
+                            </th>
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			今日备注数
+                            </th>  
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			今日注册数
+                            </th>  
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			今日提交借款数
+                            </th>  
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+                            			今日放款数
+                            </th>  
+                          
+                        </tr>
+       
+                       </thead>
+                       
+                       <!--d 表格数据区域-->
+                       <tbody  id="load_data"></tbody>
+
+                    </table>
+                    <!-- ，表格下面信息-->
+                       <div class="row">
+                    <div class="dataTables_footer clearfix">
+                        <div class="col-md-6">
+                            <div class="dataTables_info" id="DataTables_Table_0_info">
+                            			Tổng số
+                                <font id="totalrows"></font>
+                                		tin, mỗi trang chứa được 
+                                <font id="numperpage"></font>
+                                		tin, hiện tại trang số
+                                <font id="currentpage"></font>
+                                		/
+                                <font id="totalpages"></font>
+                                		trang
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+	                        <div class="dataTables_paginate paging_bootstrap" id="datatable">
+	
+	                        </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+<script>    
+        
+    function load_data(){
+        var recode_ = 3;
+        var tempsele=$("#tempselect").val();
+        var tempval=$("#dataTypeSelect").val();
+        var starTime=$("#starTime").val();
+        var endTime=$("#endTime").val();
+        var startImportDate=  $("#startImportDate").val();
+	    var endImportDate = $("#endImportDate").val();
+        var option_data_type=""; 
+        var para={endImportDate:endImportDate,startImportDate:startImportDate,curPage:$("#cupage").val(),temp:tempsele,tempvl:tempval,startDate:starTime,endDate:endTime,recode:recode_};
+        var formurl = "/servlet/current/AccountShenheAction?function=getDataBySaleMan";
+        var flag =false;
+        loadGetServer(formurl,para,function(data){
+            //console.log(data)
+            //数据类型
+            var dataTypes =data.dataTypes;
+            //先清除再添加
+         $("#dataTypeSelect").empty();
+            for(var i = 0; i < data.dataTypes.length; i++){
+			  $("#dataTypeSelect").append("<option value='"+data.dataTypes[i].data_type+"' id='tempVelue'>"+"DATA_"+data.dataTypes[i].data_type+"-"+data.dataTypes[i].create_time+"</option>") ;//新增
+			 }
+			/*  $("#dataTypeSelect option:eq(0)").attr('selected', 'selected'); *///选中第一个
+           /*  alert($("#tempVelue").val()) */
+
+
+            $("#load_data").html("");
+	        var list = data.list.data;
+            
+           html_ ="";
+        	if(list.length>0){
+                for(var i=0;i<list.length;i++){
+                    html_ +="<tr>";
+                   if(i == list.length -1  ){
+                         html_ += "<td> </td>";
+                    }else{
+                        html_ += "<td>"+(i+1)+"</td>";
+                    }
+                        
+                    //备注人
+                    html_ +="<td>"+list[i].bz_ren+"</td>"
+                    +"<td>"+list[i].phone_num+"</td>"
+                    +"<td>"+list[i].sum_remark_orders+"</td>"
+                    +"<td>"+list[i].zc_user+"</td>"
+                    +"<td>"+list[i].total_order+"</td>"
+                    +"<td>"+list[i].success_order+"</td>"
+                    +"<td>"+list[i].success_repay_order+"</td>"
+                    +"<td>"+list[i].success_overday_order+"</td>"
+
+                    +"<td>"+list[i].today_orders+"</td>"
+                     +"<td>"+list[i].today_remark_orders+"</td>"
+                    +"<td>"+list[i].zc_user_today+"</td>"
+                    +"<td>"+list[i].today_total_order+"</td>"
+                    +"<td>"+list[i].today_success_order+"</td>"
+                        
+                   html_ +="</tr>"; 
+                   console.log(i);
+                }
+        	} 
+            $("#load_data").append(html_);
+           /*  $("#tempselect").val(data.temp); */
+            $("#tempVelue").val(data.tempvalu);
+            page_value(data);
+            page_data();
+            $("#btn-load").button("reset");
+        })
+    }
+    load_data();
+    $("#btn-load").on("click", function() {
+		var a = $(this);
+		a.button("loading");
+		var date1 =$("#date1").val()
+		var importDate1 =$("#importDate").val()
+		$("#cupage").val("1");
+		load_data();
+	});
+    function toThousands(num) {  
+	    var num = (num || 0).toString(), result = '';  
+	    while (num.length > 3) {  
+	        result = ',' + num.slice(-3) + result;  
+	        num = num.slice(0, num.length - 3);  
+	    }  
+	    if (num) { result = num + result; }  
+    return result;  
+   }
+   
+   
+
+    
+</script>
+
+<script type="text/javascript" src="/sdmain/js/date_time.js"></script>
+<script type="text/javascript" src="/plugins/date_page/page.js">
+</script>

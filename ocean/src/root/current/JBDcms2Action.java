@@ -6017,4 +6017,652 @@ public  ActionResult doAddSHBeizfb() throws Exception {
 		this.getWriter().write(object.toString());	
 		return null ;  
 	}
+	
+	
+	
+	
+	
+	 /*************************   营销电话统计 Normal************************/
+	 /**
+	  * 营销电话统计
+	  * @return
+	  * @throws Exception
+	  */
+	 public ActionResult doGetYXphoneNormalList() throws Exception {
+		  
+		  logger.info("营销电话统计 page");
+			JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		    int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		    cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		    if(cmsuserid==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+			}
+			logger.info("请求ID:" + cmsuserid);
+			
+		  int curPage = getIntParameter("curPage", 1);
+		  int temp = getIntParameter("temp", 0);
+		  int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
+		  
+		  String tempVelue = getStrParameter("tempvl").replace("&nbsp;", " ");
+		  tempVelue = URLEncoder.encode(tempVelue);
+		  //上传数据时间
+		  String  startDate =getStrParameter("startDate");
+		  String  endDate =getStrParameter("endDate");
+		  
+		  //备注时间
+		  String  startDate2 =getStrParameter("startDate2");
+		  String  endDate2 =getStrParameter("endDate2");
+		  
+		  int bz_type = getIntParameter("bz_type", -1);
+		  int data_type = getIntParameter("data_type", -1);
+
+
+		  String phone ="";
+		  String cmsid="";
+		  String yxState="";   //营销状态查询 
+		  if(1==temp) {
+			  phone = tempVelue;
+		  }else if(2==temp) {
+			  cmsid = tempVelue;
+		  }else if(6==temp) {
+			  yxState = tempVelue;
+		  }
+		  int roleid =jbdcms2Service.getSdcmsUserroleid(cmsuserid);
+			
+		  
+	    DBPage page = jbdcms2Service.getYXPhoneNormalpage(curPage,15, cmsuserid,roleid,phone,startDate, endDate,cmsid,yxState,product_type,bz_type,data_type,startDate2, endDate2);
+	    //营销页面统计表
+	    DataRow tb_row = jbdcms2Service.getyingxiaoPhoneTableRow(cmsuserid, roleid, phone, startDate, endDate, cmsid, yxState, product_type, data_type,startDate2, endDate2);
+	    
+		DataRow row = new DataRow();
+		row.set("list", page);
+		row.set("tb_row",tb_row);
+		row.set("tempvalu", tempVelue);
+		row.set("temp", temp);
+		row.set("error", 1);
+		row.set("msg", "ok");
+		JSONObject object = JSONObject.fromBean(row);
+		this.getWriter().write(object.toString());
+		return null;  
+		  
+	  } 
+	 
+	 /**
+	  * 营销电话统计--分类
+	  * @return
+	  * @throws Exception
+	  */
+	 public ActionResult doGetYXphoneNormalSort() throws Exception {
+		  
+		  logger.info("营销电话统计 page--分類");
+			JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		    int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		    cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		    if(cmsuserid==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+			}
+			logger.info("请求ID:" + cmsuserid);
+			
+		  int curPage = getIntParameter("curPage", 1);
+		  int temp = getIntParameter("temp", 0);
+		  int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
+		  
+		  String tempVelue = getStrParameter("tempvl").replace("&nbsp;", " ");
+		  tempVelue = URLEncoder.encode(tempVelue);
+		  String  startDate =getStrParameter("startDate");
+		  String  endDate =getStrParameter("endDate");
+
+
+		  String phone ="";
+		  String cmsid="";
+		  String yxState="";   //营销状态查询 
+		  if(1==temp) {
+			  phone = tempVelue;
+		  }else if(2==temp) {
+			  cmsid = tempVelue;
+		  }else if(6==temp) {
+			  yxState = tempVelue;
+		  }
+		  int roleid =jbdcms2Service.getSdcmsUserroleid(cmsuserid);
+			
+		  
+	    DBPage page = jbdcms2Service.getYXPhoneNormalSort(curPage,15, cmsuserid,roleid,phone,startDate, endDate,cmsid,yxState,product_type);
+		DataRow row = new DataRow();
+		row.set("list", page);
+		row.set("tempvalu", tempVelue);
+		row.set("temp", temp);
+		row.set("error", 1);
+		row.set("msg", "ok");
+		JSONObject object = JSONObject.fromBean(row);
+		this.getWriter().write(object.toString());
+		return null;  
+		  
+	  }
+	 
+	 //营销备注
+	 public  ActionResult doAddYingXiaoremarkNormal() throws Exception {
+		   logger.info("进入添加营销备注");
+		   JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		   int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+		   cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+		   if(cmsuser_id==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+		  }
+			logger.info("请求ID:" + cmsuser_id);
+			
+		   String phone=getStrParameter("phone");
+		   if(phone != "" || phone != null){
+			   phone = phone.replace("&nbsp;", " ");
+		   }
+		   
+		   String remark = getStrParameter("remark");
+		   if(remark != "" || remark != null){
+			   remark = remark.replace("&nbsp;", " ");
+		   }else{
+				  jsonObject.put("error", -1);
+			  	  jsonObject.put("msg", "Ghi chú không được để trống");
+				  this.getWriter().write(jsonObject.toString());	
+				  return null;
+		   }
+		   String labtext = getStrParameter("labtext");
+		   if(labtext != "" || labtext != null){
+			   labtext = labtext.replace("&nbsp;", " ");
+		   }
+		   
+		   int labval = getIntParameter("labval",0);
+		   
+		   
+		   
+		   
+		   int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
+		   
+		   if(cmsuser_id!=0 && !"".equals(phone)  ) {
+			   DataRow prow = jbdcms2Service.getYXPhoneNormalRow(phone,cmsuser_id,product_type);
+			   if(null !=prow) {
+				   Date date=new Date();
+				   DateFormat format=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				   String time=format.format(date);
+				   
+				   prow.set("bz_content",remark );
+				   prow.set("bz_time",time );
+				   prow.set("bz_type", labval);
+				   prow.set("bz_titel", labtext);
+				   jbdcms2Service.updateYXPhoneNormal(prow);
+				   
+				   DataRow inrow=  new DataRow();	
+				   inrow.set("phone",phone);	
+				   inrow.set("bz_content" ,remark);
+				   inrow.set("bz_ren",cmsuser_id);
+				   inrow.set("bz_time", time);
+				   inrow.set("bz_type", labval);
+				   inrow.set("bz_titel", labtext);
+				   inrow.set("product_type", product_type);
+				   jbdcms2Service.insertYXRemarkNormalrecord(inrow);
+				   
+				   jsonObject.put("error", 1);
+				   jsonObject.put("msg", "Đã thêm ghi chú thành công");
+				   this.getWriter().write(jsonObject.toString());	
+				   return null ;
+			   }
+		   }
+		   
+		  jsonObject.put("error", -1);
+	  	  jsonObject.put("msg", "Lỗi thông tin điện thoại");
+		  this.getWriter().write(jsonObject.toString());	
+		  return null;
+		  
+		   
+	   }
+	 
+	 //营销phone 状态显示
+	 public  ActionResult doYingXiaoremarkNormal_showstatus() throws Exception {
+		   logger.info("进入添加营销备注");
+		   JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		   int cmsuser_id =SessionHelper.getInt("cmsuserid", getSession());
+		   cmsuser_id =accessVeritifivationbase.checkCMSidAndip(cmsuser_id, getipAddr());
+		   if(cmsuser_id==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+		  }
+			logger.info("请求ID:" + cmsuser_id);
+			
+		   String phone=getStrParameter("phone");
+		   if(phone != "" || phone != null){
+			   phone = phone.replace("&nbsp;", " ");
+		   }
+		   String idno = getStrParameter("idno");
+		   if(idno != "" || idno != null){
+			   idno = idno.replace("&nbsp;", " ");
+		   }
+		   if(phone.equals("") && idno.equals("")  ){
+				  jsonObject.put("error", -1);
+			  	  jsonObject.put("msg", "Thông tin sai");
+				  this.getWriter().write(jsonObject.toString());	
+				  return null;
+		   }
+		   int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
+		   
+		   if(cmsuser_id!=0  ) {
+				   
+			   int userid = jbdcms2Service.getsd_user_id(phone);
+			   if(userid <=0 ) {
+				   userid = jbdcms2Service.getsd_user_finance_id(idno);
+			   }
+			   
+			   if(userid >0) {
+				   String msg ="-----";
+				   String msg_d ="Đang chờ đợi";
+				   String msg_cg ="thông qua";
+				   String msg_sb ="Chưa vượt qua";
+				   String create_time =  jbdcms2Service.getsd_user_id_createtime(userid+"");
+				   jsonObject.put("u_state_zc", msg_cg+"--"+create_time); 
+				   
+				   DataRow  row_jk =jbdcms2Service.getsd_new_jkyxRow(userid+"");
+				   if(row_jk!=null) {
+					   int cl_status = row_jk.getInt("cl_status");
+					   if(cl_status==0) {
+						   jsonObject.put("u_state_sh1", msg_d);
+						   jsonObject.put("u_state_sh2", msg); 
+						   jsonObject.put("u_state_sh3", msg); 
+						   jsonObject.put("u_state_fk", msg); 
+						   jsonObject.put("u_state_hk", msg); 
+					   }else if(cl_status==1) {
+						   jsonObject.put("u_state_sh1", msg_cg+"--"+row_jk.getString("cl_time")); 
+						   //二审
+						   int cl02_status = row_jk.getInt("cl02_status");
+						   if(cl02_status==0) {
+							   jsonObject.put("u_state_sh2", msg_d); 
+							   jsonObject.put("u_state_sh3", msg); 
+							   jsonObject.put("u_state_fk", msg); 
+							   jsonObject.put("u_state_hk", msg); 
+						   }else if(cl02_status==1) {
+							   jsonObject.put("u_state_sh2", msg_cg+"--"+row_jk.getString("cl_time")); 
+							   
+							 //三审
+							   int cl03_status = row_jk.getInt("cl03_status");
+							   if(cl03_status==0) {
+								   jsonObject.put("u_state_sh3", msg_d); 
+								   jsonObject.put("u_state_fk", msg); 
+								   jsonObject.put("u_state_hk", msg); 
+							   }else if(cl03_status==1) {
+								   jsonObject.put("u_state_sh3", msg_cg+"--"+row_jk.getString("cl_time"));
+								   
+								   //放款
+								   int sfyfk = row_jk.getInt("sfyfk");
+								   if(sfyfk==2) {
+									   jsonObject.put("u_state_fk", msg_d); 
+									   jsonObject.put("u_state_hk", msg); 
+								   }else if(sfyfk==1){
+									   jsonObject.put("u_state_fk", msg_cg+" --"+row_jk.getString("fkdz_time"));
+									   
+									   //还款
+									   int sfyhw = row_jk.getInt("sfyhw");
+									   int yuq_ts = row_jk.getInt("yuq_ts");
+									   if(1==sfyhw) {
+										   msg=" Trả hết " + "  Ngày quá hạn:"+yuq_ts+" time:"+row_jk.getString("hk_time");
+									   }else {
+										   msg="Không được trả hết" + "  Ngày quá hạn:"+yuq_ts;
+									   }
+									   jsonObject.put("u_state_hk", msg); 
+								   } else {
+									   jsonObject.put("u_state_fk", msg_sb); 
+									   jsonObject.put("u_state_hk", msg); 
+								   }
+							   }else {
+								   jsonObject.put("u_state_sh3", msg_sb+"--"+row_jk.getString("cl03_yj")); 
+								   jsonObject.put("u_state_sh3", msg); 
+								   jsonObject.put("u_state_fk", msg); 
+								   jsonObject.put("u_state_hk", msg); 
+							   }
+						   }else {
+							   jsonObject.put("u_state_sh2", msg_sb+"--"+row_jk.getString("cl02_yj")); 
+							   jsonObject.put("u_state_sh3", msg); 
+							   jsonObject.put("u_state_fk", msg); 
+							   jsonObject.put("u_state_hk", msg); 
+						   }
+						   
+					   }else {
+						   jsonObject.put("u_state_sh1", msg_sb+"--"+row_jk.getString("cl_yj"));
+						   jsonObject.put("u_state_sh2", msg); 
+						   jsonObject.put("u_state_sh3", msg); 
+						   jsonObject.put("u_state_fk", msg); 
+						   jsonObject.put("u_state_hk", msg); 
+					   }
+					   
+					   
+				   }
+				   
+			   }else {
+				   String msg ="Khong co";
+				   jsonObject.put("u_state_zc", msg); 
+				   jsonObject.put("u_state_sh1", msg); 
+				   jsonObject.put("u_state_sh2", msg); 
+				   jsonObject.put("u_state_sh3", msg); 
+				   jsonObject.put("u_state_fk", msg); 
+				   jsonObject.put("u_state_hk", msg); 
+				   
+			   }
+			   jsonObject.put("error", 1);   
+			   jsonObject.put("msg", "Đã thêm ghi chú thành công");
+			   this.getWriter().write(jsonObject.toString());	
+			   return null ;
+		   }
+		   
+		  jsonObject.put("error", -1);
+	  	  jsonObject.put("msg", "Lỗi thông tin điện thoại");
+		  this.getWriter().write(jsonObject.toString());	
+		  return null;
+		  
+		   
+	   }
+	 
+	
+	 
+	 
+	 /**
+	  * 添加名单--自动过审
+	  * @return
+	  * @throws Exception
+	  */
+	 public ActionResult doGeAddUserAllLoanList() throws Exception {
+		  
+		  logger.info("添加名单--自动过审 page");
+			JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		    int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		    cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		    if(cmsuserid==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+			}
+			logger.info("请求ID:" + cmsuserid);
+			
+		  int curPage = getIntParameter("curPage", 1);
+		  int temp = getIntParameter("temp", 0);
+		  String tempVelue = getStrParameter("tempvl").replace("&nbsp;", " ");
+		  tempVelue = URLEncoder.encode(tempVelue);
+		  String  startDate =getStrParameter("startDate");
+		  String  endDate =getStrParameter("endDate");
+
+		  String phone ="";
+		  String idno ="";
+		  String cmsid="";
+		  if(3==temp) {
+			  phone = tempVelue;
+		  }else if(4==temp) {
+			  idno = tempVelue;
+		  }else if(5==temp) {
+			  cmsid = tempVelue;
+		  }
+		  int roleid =jbdcms2Service.getSdcmsUserroleid(cmsuserid);
+			
+		  if(roleid!=1 && temp < 1 && tempVelue.equals("") ) {
+			  cmsid= cmsuserid+"";
+			  DataRow row = new DataRow();
+			  DBPage page = jbdcms2Service.getUserLoanpage(curPage, 10,phone,idno,cmsid,startDate, endDate);
+			  row.set("list", page);
+			  row.set("tempvalu", tempVelue);
+			  row.set("temp", temp);
+			  row.set("error", 1);
+			  row.set("msg", "ok");
+			  JSONObject object = JSONObject.fromBean(row);
+			  this.getWriter().write(object.toString());
+			  return null; 
+		 }
+		  
+	    DBPage page = jbdcms2Service.getUserLoanpage(curPage, 10,phone,idno,cmsid,startDate, endDate);
+		DataRow row = new DataRow();
+		row.set("list", page);
+		row.set("tempvalu", tempVelue);
+		row.set("temp", temp);
+		row.set("error", 1);
+		row.set("msg", "ok");
+		JSONObject object = JSONObject.fromBean(row);
+		this.getWriter().write(object.toString());
+		return null;  
+		  
+	  } 
+	  
+	  
+	  /**
+	   * 营销电话分配页面
+	   * @return
+	   * @throws Exception
+	   */
+	  public ActionResult doGetYXphonefendanPage() throws Exception {
+	  			  
+	  			  logger.info("营销电话分单 page");
+	  				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+	  			    int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+	  			    cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+	  			    if(cmsuserid==0){
+	  						jsonObject.put("error", -1);
+	  						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+	  						this.getWriter().write(jsonObject.toString());	
+	  						return null;		
+	  				}
+	  				logger.info("请求ID:" + cmsuserid);
+	  				
+	  			  int curPage = getIntParameter("curPage", 1);
+	  			  int temp = getIntParameter("temp", 0);
+	  			  int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
+	  			  
+	  			  String tempVelue = getStrParameter("tempvl").replace("&nbsp;", " ");
+	  			  tempVelue = URLEncoder.encode(tempVelue);
+	  			  String  startDate =getStrParameter("startDate");
+	  			  String  endDate =getStrParameter("endDate");
+	  
+	  
+	  			  String phone ="";
+	  			  String cmsid="";
+	  			  String yxState="";   //营销状态查询 
+	  			  if(1==temp) {
+	  				  phone = tempVelue;
+	  			  }else if(2==temp) {
+	  				  cmsid = tempVelue;
+	  			  }else if(6==temp) {
+	  				  yxState = tempVelue;
+	  			  }
+	  			  int roleid =jbdcms2Service.getSdcmsUserroleid(cmsuserid);
+	  				
+	  			  
+	     DBPage page = jbdcms2Service.getYXphonefendanPage(curPage,15, cmsuserid,roleid,phone,startDate, endDate,cmsid,yxState,product_type);
+	  			DataRow row = new DataRow();
+	  			row.set("list", page);
+	  			row.set("tempvalu", tempVelue);
+	  			row.set("temp", temp);
+	  			row.set("error", 1);
+	  			row.set("msg", "ok");
+	  			JSONObject object = JSONObject.fromBean(row);
+	  			this.getWriter().write(object.toString());
+	  			return null;  
+	  			  
+	   } 
+	  
+	  
+	  /**
+	            营销电话分配页面  --- 获取分单人员表
+	   * @return
+	   * @throws Exception
+	   */
+	  public ActionResult doGetfendanUserList() throws Exception {
+	  			  
+			logger.info("营销电话分单-- 获取分单人员表");
+			JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+			cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+			if(cmsuserid==0){
+					jsonObject.put("error", -1);
+					jsonObject.put("msg", "Vui lòng đăng nhập trước");
+					this.getWriter().write(jsonObject.toString());	
+					return null;		
+			}
+			logger.info("请求ID:" + cmsuserid);
+			
+		  
+			// 需要分配人员
+			DataRow row302 = jbdcms2Service.getpingjiguize(302);  //  营销人员名单 处理人员名单
+			String  userlist =row302.getString("guizebianliang1");
+			String userzu302[] = userlist.split(",");
+			int zu_num = 0;
+			String str_sql="";
+			for(String user:userzu302) {
+				if(1== userzu302.length) {
+					str_sql+=" and user_id ="+user;
+				}else {
+					if(0== zu_num ) {
+						str_sql+=" and ( ";
+						str_sql+="  user_id ="+user;
+					}else {
+						str_sql+=" OR user_id ="+user;
+					}
+					if((userzu302.length-1)== zu_num ) {
+						str_sql+=" ) ";
+					}
+				}
+               zu_num++;
+			}
+
+		  List<DataRow> list = jbdcms2Service.getfendanUserlist(str_sql);
+			DataRow row = new DataRow();
+			row.set("list", list);
+			row.set("error", 1);
+			row.set("msg", "ok");
+			JSONObject object = JSONObject.fromBean(row);
+			this.getWriter().write(object.toString());
+			return null;  
+	  			  
+	   }
+
+	  
+	  //开始配单
+	   public ActionResult doGetfendanUserPhone() throws Exception  {
+
+		   logger.info("营销电话分单-- 开始分单");
+		   JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		   int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		   cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		   if(cmsuserid==0){
+			   jsonObject.put("error", -1);
+			   jsonObject.put("msg", "Vui lòng đăng nhập trước");
+			   this.getWriter().write(jsonObject.toString());
+			   return null;
+		   }
+		   logger.info("请求ID:" + cmsuserid);
+
+		   int number = getIntParameter("number", 0);
+		   int user_out = getIntParameter("user_out", 0);
+		   int user_in = getIntParameter("user_in", 0);
+		   int fd_isremark = getIntParameter("fd_isremark", 0);
+		   int data_type = getIntParameter("data_type", -1);
+		   
+		   logger.info("number:"+number);
+		   logger.info("user_out:"+user_out);
+		   logger.info("user_in:"+user_in);
+		   logger.info("fd_isremark:"+fd_isremark);
+		   
+		   if(number <= 0){
+			   jsonObject.put("error", -1);
+			   jsonObject.put("msg", "VHãy nhập số lượng phân chia đơn đặt hàng");
+			   this.getWriter().write(jsonObject.toString());
+			   return null;
+		   }
+
+		   if(user_in <= 0){
+			   jsonObject.put("error", -1);
+			   jsonObject.put("msg", "Chọn nhân viên nhận");
+			   this.getWriter().write(jsonObject.toString());
+			   return null;
+		   }
+
+
+		   //int fd_account = jbdcms2Service.getfendanCount(number,user_out,user_in,fd_isremark);
+		   int fendan_num = jbdcms2Service.UpdateFendanUser(number,user_out,user_in,fd_isremark,data_type);
+		   logger.info("成功分配："+fendan_num);
+		   DataRow row = new DataRow();
+		   row.set("error", 1);
+		   row.set("msg", "Phân bổ thành công : "+fendan_num+" ");
+		   JSONObject object = JSONObject.fromBean(row);
+		   this.getWriter().write(object.toString());
+		   return null;
+	   }
+	   
+	   
+	   /**
+	    *  营销电话名单数据 
+	    * @return
+	    * @throws Exception
+	    */
+	   public ActionResult doGetMarketDataTypeList()  throws Exception{
+		   
+		   logger.info("营销电话名单数据 ");
+		   JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		   int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		   cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		   if(cmsuserid==0){
+			   jsonObject.put("error", -1);
+			   jsonObject.put("msg", "Vui lòng đăng nhập trước");
+			   this.getWriter().write(jsonObject.toString());
+			   return null;
+		   }
+		   logger.info("请求ID:" + cmsuserid);
+		   
+		   List<DataRow> list = jbdcms2Service.getDataTypeList();
+		   DataRow row = new DataRow();
+		   row.set("list", list);
+		   row.set("error", 1);
+		   row.set("msg", "thành công");
+		   JSONObject object = JSONObject.fromBean(row);
+		   this.getWriter().write(object.toString());
+		   return null;
+		   
+	   }
+	   
+	   /**
+	    *  营销关闭订单 
+	    * @return
+	    * @throws Exception
+	    */
+	   public ActionResult doGetMarketDataDelete()  throws Exception{
+		   
+		   logger.info("关闭营销电话 ");
+		   JSONObject jsonObject = new JSONObject(); // 后台登录账户
+		   int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+		   cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+		   if(cmsuserid==0){
+			   jsonObject.put("error", -1);
+			   jsonObject.put("msg", "Vui lòng đăng nhập trước");
+			   this.getWriter().write(jsonObject.toString());
+			   return null;
+		   }
+		   logger.info("请求ID:" + cmsuserid);
+		   
+		   int orderid = getIntParameter("orderid", 0);
+		   logger.info("请求orderid:" + orderid);
+		   
+		   DataRow up_row = new DataRow();
+		   up_row.set("id", orderid);
+		   up_row.set("isdelete", 0);
+		   jbdcms2Service.updateyingxiaoOrderID(up_row);
+		   
+		   DataRow row = new DataRow();
+		   row.set("error", 1);
+		   row.set("msg", "thành công");
+		   JSONObject object = JSONObject.fromBean(row);
+		   this.getWriter().write(object.toString());
+		   return null;
+		   
+	   }
 }

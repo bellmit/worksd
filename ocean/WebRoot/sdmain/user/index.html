@@ -130,6 +130,9 @@
 		                        </th>
 		                        <th>
 		                          Số ĐTDĐ(手机号码)
+								</th>
+								<th>
+		                          Người giới thiệu(推荐人)
 		                        </th>
                                 <th>
 		                          Thời gian tạo TK(创建时间)
@@ -430,7 +433,7 @@
 				 //}
 		  
 				html_ += "<tr><td><span onclick=''>"+list[i].id+"</span></td><td>"+list[i].username+"</td><td><a href='javascript:void(0);' onclick=\"call_choice('"+list[i].mobilephone+"')\">"+mobilephone+"</a></td>";
-				
+				html_ +="<td>"+list[i].refferee+"</td>";
 				html_ +="<td>"+list[i].createtime+"</td><td>"+list[i].lastdate+"</td>";
 			  	
 				if(list[i].profession==2){

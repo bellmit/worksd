@@ -1,0 +1,627 @@
+
+<style>
+.col-md-0{
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px
+}
+.col-md-0{
+    float: left
+}
+.col-md-9{margin-top: 6px;}
+
+</style>
+<script type="text/javascript" src="/sdmain/js/date_time.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.rotate.js">
+    </script>
+<script type="text/javascript" src="/plugins/date_page/page.js">
+</script>
+<script type="text/javascript" src="/assets/js/jsbn.js">
+</script>
+<script type="text/javascript" src="/assets/js/rsa.js">
+</script>
+<script>
+function encrypt(pwd) {
+    var pem = '-----BEGIN PUBLIC KEY-----\
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC3+bWQP/qqpjzT2XruGDwhbWDl\
+    ofPNuvufFm5+vrQvG8WhBrN63hfwg+NhR2NQxvLRaGNoklWKp4hUZa3rm6myMLaB\
+    GKV3BEuXl1CSWf1TBJSBMT1zy5C/G+3w1/jrf779QtX0gUixQ9YdwHShJTcBE+0q\
+    hS7MqF+y5Z5NXy+fLwIDAQAB\
+    -----END PUBLIC KEY-----';
+    var key = RSA.getPublicKey(pem);
+    return RSA.encrypt(pwd, key);
+}
+</script>
+			<div  class="container">
+				<div class="crumbs">
+		            <ul id="breadcrumbs" class="breadcrumb">
+		              <li>
+		                <i class="fa fa-home">
+		                </i>
+		                <a href="index.html">
+		                </a>
+		              </li>
+		              <li class="current">
+		                <a href="indexCms.html" title="">
+		                              Danh sách khách hàng
+		                </a>
+		              </li>
+		            </ul>
+		        </div>
+		        <div class="row" style="margin-top: 10px;">
+		            <div class="col-md-12">
+		              <div class="widget box">
+		                <div class="widget-header">
+		                  <h4>
+		                    <i class="fa fa-reorder">
+		                    </i>
+		                                        Điều kiện chọn
+		                  </h4>
+		                </div>
+		                <div class="widget-content">
+		                  
+						  <div>
+						     <input type="hidden" id="cupage" value="1"/>
+							 <input type="hidden" id="total" value="1"/>
+							<input type="hidden" id="formurl" value="/servlet/current/JBDcms2Action?function=GetYXphonefendanPage"/>
+							
+                             <input type="hidden" id="starTime" value=""/>
+                             <input type="hidden" id="endTime" value=""/>
+						  </div>
+						  
+		                    <div class="form-group">
+                              <div class="col-md-4" style="width:150px;">
+                                  <select class="form-control" name="select" id="tempselect" onChange="gradeChange()" >
+                                      <option value="0">
+                                        Toàn bộ
+                                      </option>
+                                      <option value="1">
+                                        Số ĐTDĐ
+                                      </option>
+									 <option value="2">
+                                        Nhân viên
+                                      </option>
+                               	  </select>
+                              </div>
+                              <div class="col-md-1" style="width:200px;">
+		                        <input type="text" name="regular" class="form-control" id="tempVelue" placeholder="Vui lòng nhập thông tin tìm kiếm" >
+		                      </div>
+                               <label class="col-md-0 control-label" style="padding-top:5px;">
+		                                              Thời gian yêu cầu:
+		                      </label>
+                               <div class="col-md-2">
+                                <input type="text" name="regular" class="form-control datepicker" id="date1" onBlur="onb()">
+                              </div> 
+                                               
+			                  <button id="btn-load" class="btn btn-primary" data-loading-text="loading...">
+			                                     Tìm kiếm
+			                  </button>
+			                  
+			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                  <button id="btn-diverPhone" class="btn btn-primary" style="width:150px;text-align: right">
+							                        Phân bổ hàng loạt
+							   </button>
+
+		                    </div>
+		                  
+		                </div>
+		              </div>
+		            </div>
+		        </div>
+		        <div class="row">
+		            <div class="col-md-12">
+		              <div class="widget box">
+		                <div class="widget-header">
+		                  <h4>
+		                    <i class="fa fa-reorder">
+		                    </i>
+		                                 Danh sách số điện thoại
+		                </div>
+		                <div class="widget-content">
+						  <table class="table table-hover table-striped table-bordered table-highlight-head" 
+						  oncontextmenu="window.event.returnValue=true" onselectstart="return true" oncopy="return true;">
+		                    <thead>
+		                      <tr>
+		                        
+		                        <th>
+		                          Số ĐTDĐ
+		                        </th>
+		                        <th>
+		                        Họ tên
+		                        </th>
+		                         <th>
+		                        Nhân viên
+		                        </th>
+                                <th>
+		                          Nội dung ghi chú
+		                        </th>
+		                         <th>
+		                          Thời gian ghi chú
+		                        </th>
+		                        
+		                         <th>
+		                          Ghi chú
+		                        </th>
+		                        <th>
+		                        Tình trạng
+		                        </th>
+		                        
+		                      </tr>
+		                    </thead>
+		                    <tbody id="load_data" >
+		                      
+		                    </tbody>
+		                  </table>
+		                 
+ <div class="row"><div class="dataTables_footer clearfix"><div class="col-md-6"><div class="dataTables_info" id="DataTables_Table_0_info">Tổng số<font id="totalrows"></font> tin，mỗi trang chứa được <font id="numperpage"></font> tin，hiện tại trang số<font id="currentpage"></font> / <font id="totalpages"></font>Trang</div></div><div class="col-md-6"><div class="dataTables_paginate paging_bootstrap" id="datatable"></div></div></div></div>
+
+
+		                </div>
+		              </div>
+		            </div>
+		          </div>
+			</div>
+			
+			
+      <div id="add_content_html" style="display: none;">
+        <div class="modal-backdrop fade in"></div>
+        <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog" style="padding-top: 8%;">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" onclick="$('#add_content_html').hide()">×</button>
+                        <h4 class="modal-title"><span id="update_name"></span> Ghi chú </h4>
+                    </div>
+                    <div class="modal-body">
+                          <div class="bootbox-body"  style="height:360px;" id="div_a">
+                             <div class="col-md-12">
+                                <div class="widget box">
+                                    <div class="widget-header">
+                                    </div>
+                                    <div class="widget-content" style="padding:15px;">
+                                        <form class="form-horizontal row-border" >
+                                        
+                                           <div class="form-group" id="has-rec_id">
+                                            <label class="col-md-3 control-label">Nhân viên
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" name="cs_name" id="cs_name" readonly  class="form-control required">
+                                                  </div>
+                                           </div>
+                                           
+                                           <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Số ĐTDĐ
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="grade_1" id="real_name" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                          
+                                          
+                                            
+                                            <div class="form-group has-error" id="has_coll_ms">
+                                            <label class="col-md-3 control-label">Ghi chú
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <textarea rows="3" cols="5" name="coll_ms" class="form-control" id="coll_ms" onBlur="isnull_value('coll_ms','has_coll_ms','lab_coll_ms')"></textarea>
+                                                  
+                                                  <label for="range1" generated="true" class="help-block" id="lab_coll_ms"></label>
+                                                  </div>
+                                              </div>
+                                              <input type="hidden" id="u_id"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-bb-handler="success" type="button" class="btn btn-success" onclick="add_beiz()">Xác nhận</button>
+                        <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#add_content_html').hide()">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>   
+        
+        <!--  显示用户状态 -->
+    <div id="show_content_html" style="display: none;">
+        <div class="modal-backdrop fade in"></div>
+        <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog" style="padding-top: 8%;">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="bootbox-close-button close" onclick="$('#add_content_html').hide()">×</button>
+                        <h4 class="modal-title"><span id="update_name"></span>trạng thái </h4>
+                    </div>
+                    <div class="modal-body">
+                          <div class="bootbox-body"  id="div_a">
+                             <div class="col-md-12">
+                                <div class="widget box">
+                                    <div class="widget-header">
+                                    </div>
+                                    <div class="widget-content" style="padding:15px;">
+                                        <form class="form-horizontal row-border" >
+                                        
+                                        
+                                           <div class="form-group" id="has-rec_id">
+                                            <label class="col-md-3 control-label">Nhân viên   <!--  员工 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                   <input type="text" name="u_name" id="u_name" readonly  class="form-control required">
+                                                  </div>
+                                           </div>
+                                           
+                                           <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Số ĐTDĐ   <!--  电话 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_phone" id="u_phone" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                              
+                                              <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Tình trạng đăng ký  <!--  注册 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_zc" id="u_state_zc" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                           
+                                           <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Thẩm định lần 1   <!-- 一审 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_sh1" id="u_state_sh1" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                             
+                                          <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Thẩm định lần 2  <!--  二审 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_sh2" id="u_state_sh2" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                              
+                                           <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Thẩm định lần cuối <!--  三审 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_sh3" id="u_state_sh3" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Tình trạng khoản vay  <!--  放款 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_fk" id="u_state_fk" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                              
+                                               <div class="form-group" id="has-real_name">
+                                            <label class="col-md-3 control-label">Tình trạng trả nợ<!--  还款 -->
+                                              <span class="required">*</span></label>
+                                                <div class="col-md-9">
+                                                  <input type="text" name="u_state_hk" id="u_state_hk" readonly  class="form-control required">
+                                                  </div>
+                                              </div>
+                                          
+                                              <input type="hidden" id="u_id"/>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#show_content_html').hide()">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>       
+          
+       <!--分单框架 -->
+		<div id="fendan_content_html" style="display: none;">
+		   <div class="modal-backdrop fade in"></div>
+		   <div class="bootbox modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: block;">
+		       <div class="modal-dialog" style="padding-top: 10%;">
+		           <div class="modal-content" >
+		               <div class="modal-header">
+		                   <button type="button" class="bootbox-close-button close" onclick="$('#fendan_content_html').hide()">×</button>
+		                   <h4 class="modal-title"><span id="update_name"></span>Hiển thị thông tin bộ sưu tập</h4>
+		               </div>
+		               <div class="modal-body">
+		                     <div class="bootbox-body" >
+		                        <div class="col-md-12">
+		                           <div class="widget box">
+		                               <div class="widget-header">
+		                               </div>
+		                               <div class="widget-content" style="padding:15px;">
+		                                   <form class="form-horizontal row-border" >
+		                                       <div class="form-group">
+		                                           <label class="col-md-3 control-label">Phân bổ đơn hàng ：</label>
+		                                           <div class="col-md-9">
+		                                               <input type="number" name="fd_number" id="fd_number">
+		                                           </div>
+											   </div>
+											   <div class="form-group">
+												   <label class="col-md-3 control-label">Tư vấn theo thứ tự:</label>
+												   <div class="col-md-9">
+														<select class="form-control" name="select" id="tempselect_type"></select>
+												   </div>
+												</div>
+											   <div class="form-group">
+											       <label class="col-md-3 control-label">ghi chú：</label>
+											       <div class="col-md-9">
+													   <label class='radio-inline'><input name='fd_isremark' value='0' type='radio' onclick='radi_end()' checked='cheched'>Mặc định </label>
+													   </br>
+											           <label class='radio-inline'><input name='fd_isremark' value='1' type='radio' onclick='radi_end()'>Chưa giải quyết</label> 
+											           </br>
+											           <label class='radio-inline'><input name='fd_isremark' value='2' type='radio' onclick='radi_end()'>Thêm vào danh sách đen</label>
+											       </div>
+											   </div>
+		                                       <div class="form-group">
+		                                           <label class="col-md-3 control-label"> Người phân chia：</label>
+		                                           <div class="col-md-9">
+		                                               <select class="form-control" name="select" id="lab_out"></select>
+		                                           </div>
+		                                       </div>
+											   <div class="form-group">
+											       <label class="col-md-3 control-label">Người nhận：</label>
+											       <div class="col-md-9">
+											           <select class="form-control" name="select" id="lab_in"></select>
+											       </div>
+											   </div>
+											   
+		                                   </form>
+		                               </div>
+		                           </div>
+		                       </div>
+		                   </div>
+		               </div>
+		               <div class="modal-footer">
+		                   <button data-bb-handler="success" type="button" class="btn btn-success" onclick="sub_fendan()">Xác nhận</button>
+		                   <button data-bb-handler="main" type="button" class="btn btn-primary" onclick="$('#fendan_content_html').hide()">Đóng</button>
+		               </div>
+		           </div>
+		       </div>
+		   </div>
+	    </div>
+		
+<script language="Javascript">
+	document.oncontextmenu = new Function("event.returnValue=true");
+	document.onselectstart = new Function("event.returnValue=true");
+</script> 		
+<script>
+
+	$("#btn-load").on("click", function() {
+		var a = $(this);
+		a.button("loading");
+		$("#cupage").val("1");
+		load_data();
+	
+	});
+ function init2(t){
+      var d=new Date(t);
+	  var year=d.getFullYear();
+	  var day=d.getDate();
+	  var month=+d.getMonth()+1;
+	  var hour=d.getHours();
+	  var minute=d.getMinutes();
+	  var second=d.getSeconds();
+	  var misec=d.getMilliseconds();
+	  var f=year+"-"+formate(month)+"-"+formate(day)+" "+formate(hour)+":"+formate(minute)+":"+formate(second);
+	  return f ;
+	//window.setTimeout(init,1);
+	}
+  function formate(d){
+	  return d>9?d:'0'+d;
+ }
+  
+  
+	function load_data()
+	{
+	
+	  var starTime=$("#starTime").val();
+	  var endTime=$("#endTime").val();
+	  var para={curPage:$("#cupage").val(),temp:$("#tempselect").val(),tempvl:$("#tempVelue").val(),startDate:starTime,endDate:endTime,p_type:30};
+	 
+	  loadGetServer($("#formurl").val(),para,function(data){
+
+		  $("#load_data").html("");
+		  var list = data.list.data;
+		  var html_="";
+		  for(var i=0;i<list.length;i++)
+		  {
+			    var mobilephone = list[i].phone;
+
+				html_ += "<tr>";
+				html_ +="<td>"+mobilephone+"</td>";
+				html_ +="<td>"+ list[i].name+"</td>";
+				html_ +="<td>"+ list[i].bz_ren+"</td>";
+				if(list[i].bz_time != null ){
+					html_ +="<td>"+list[i].bz_content+"</td>";
+					html_ +="<td>"+list[i].bz_time+"</td>";
+				}else{
+					html_ +="<td> Khong</td>";
+					html_ +="<td> Khong</td>";
+				}
+				
+				html_ +="<td><button class='btn btn-xs btn-success'  onclick=\"load_beiz('"+list[i].phone+"','"+list[i].bz_ren+"')\">Thêm ghi chú</button></td>"; 
+				html_ +="<td><button class='btn btn-xs btn-success'  onclick=\"load_show_status('"+list[i].phone+"','"+list[i].bz_ren+"','"+list[i].idno+"')\">Tình trạng</button></td>"; 
+				html_ +="</tr>";
+		   }
+		    $("#load_data").append(html_);
+		 
+			$("#tempselect").val(data.temp);
+			$("#tempVelue").val(data.tempvalu);
+			page_value(data);
+			page_data();
+			$("#btn-load").button("reset");
+	    });
+   }  
+   
+   function gradeChange(){
+	   var tempselect=$("#tempselect").val();
+	   if(tempselect==0){
+	       $("#tempVelue").val("");
+	   }
+	}
+   
+   load_data();
+   
+
+    function load_beiz(phone,bz_ren){    
+	   //document.getElementById("jilu").style.display="none";
+	   //document.getElementById("div_a").style.height="400px";
+	   $("#real_name").val(phone);
+	   $("#cs_name").val(bz_ren);
+	   
+	   console.log(phone);
+	   console.log(bz_ren);
+	  
+	   $("#has-cuilevel").attr("class","form-group  has-error");
+       $("#has_coll_ms").attr("class","form-group  has-error");		
+       
+	   $("#add_content_html").show();
+	   
+   }
+    
+   /*  <!--添加或者修改催收备注--> */
+   function add_beiz(){
+
+   	  var aa = $("#coll_ms").val();
+   	  if(aa==""){
+		  alert("Vui lòng nhập dữ liệu truy vấn");
+		  return;
+	  }
+	  
+	  var para ={phone:$("#real_name").val(),remark:aa,p_type:30};
+	  
+	  loadGetServer("/servlet/current/JBDcms2Action?function=AddYingXiaoremarkNormal",para,function(data){
+			   if(data.error>0){
+				   $("#add_content_html").hide();
+				   load_data();
+			   }else{
+				    
+				   alert(data.msg);
+			   }
+		   });
+	
+   }
+   
+   
+   /* 显示状态 */
+   function load_show_status(phone,bz_ren,idno){  
+	   
+	   console.log(phone);
+	   console.log(bz_ren);
+
+	  var para={phone:phone,idno:idno,p_type:30};
+	  loadGetServer("/servlet/current/JBDcms2Action?function=YingXiaoremarkNormal_showstatus",para,function(data){
+			  if(data.error>0){
+				  $("#u_name").val(bz_ren);
+				  $("#u_phone").val(phone);
+				  $("#u_state_zc").val(data.u_state_zc);
+				  $("#u_state_sh1").val(data.u_state_sh1);
+				  $("#u_state_sh2").val(data.u_state_sh2);
+				  $("#u_state_sh3").val(data.u_state_sh3);
+				  $("#u_state_fk").val(data.u_state_fk);
+				  $("#u_state_hk").val(data.u_state_hk);
+				  
+				   $("#has-cuilevel").attr("class","form-group  has-error");
+			       $("#has_coll_ms").attr("class","form-group  has-error");		
+				   $("#show_content_html").show();
+			   }else{
+				    
+				   alert(data.msg);
+			   }
+		   });
+   }
+   // 分单按钮
+   $("#btn-diverPhone").on("click", function() {
+   	
+		$("#lab_out").val(0);  //分出人
+		$("#lab_in").val(0);   //分入人
+		data_type()
+		var para = {
+		
+		};
+   		loadGetServer("/servlet/current/JBDcms2Action?function=GetfendanUserList",para,function(data){
+   				  $("#fendan_content_html").show();
+   				  if(data.error> 0){
+					  var userlist = data.list;
+					  var html_="<option value='0'>Khong</option>";
+					  for (var i = 0; i < userlist.length; i++) {
+					  	console.log(userlist[i].user_id);
+					  	/* html_ +='<option value="'+ userlist[i].cuishouid +'">'+ userlist[i].cuishouid+ '</option>'; */
+					  	html_ +="<option value='"+userlist[i].user_id+"'>"+userlist[i].user_id+"-"+userlist[i].name+"</option>";
+					  }
+					  					
+					  $("#lab_out").html('').append(html_);
+					  $("#lab_in").html('').append(html_);
+   				  }	  
+   		});
+   	
+   	});
+	
+	//提交分单
+	function sub_fendan() {
+		var fd_number = $("#fd_number").val();
+		 var data_type = $("#tempselect_type").val();
+		if (fd_number <= 0) {
+			alert("Hãy nhập số lượng phân chia đơn đặt hàng！");		
+			return;
+		}
+		var lab_out = $("#lab_out").val();
+		var lab_in = $("#lab_in").val();
+		if (lab_in <= 0) {
+			alert("Chọn nhân viên nhận");	
+			return;
+		}
+		var fd_isremark=$("input:radio[name='fd_isremark']:checked").val();
+		
+		var para = {
+			number : fd_number,
+			user_out : lab_out,
+			user_in : lab_in,
+			isremark : fd_isremark,
+			data_type:data_type
+		};
+		
+		loadGetServer("/servlet/current/JBDcms2Action?function=GetfendanUserPhone",para,function(data){
+					alert(data.msg);
+		});
+	}
+
+	//Data -type   
+	function data_type(){
+		
+		$("#tempselect_type").val(0); 
+
+		var para = {
+		
+		};
+		loadGetServer("/servlet/current/JBDcms2Action?function=GetMarketDataTypeList",para,function(data){
+				if(data.error> 0){
+					var list = data.list;
+					var html_="<option value='0'>     Toàn bộ (DATA_A) </option>";
+					for (var i = 0; i < list.length; i++) {
+						html_ +="<option value='"+list[i].data_type+"'>DATA_"+list[i].data_type+" - "+list[i].create_time+"</option>";
+					}
+										
+					$("#tempselect_type").html('').append(html_);
+				}	  
+		});
+	}
+   
+
+</script>
+
+ 

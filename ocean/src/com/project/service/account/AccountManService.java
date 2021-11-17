@@ -258,7 +258,7 @@ public int getShenqingJKCG(String startDate,String endDate){
 	 * @return
 	 */
 	public List<DataRow>  getAllAcountUser(){
-		String sql="select * from sd_accountuser order by id desc limit 365";
+		String sql="SELECT Id,createcount,viprzcount,rzdata,TIME,lyhsqjk,zsqjk,sqjk,sqjkpf3,sqjkpf2,sqjkpf1,sqjkpff1,sqjkpff2,fkcg FROM sd_accountuser ORDER BY id DESC LIMIT 365";
 		return this.getJdbcTemplate().query(sql);
 	}
 	/**

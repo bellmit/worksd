@@ -4870,4 +4870,345 @@ public List<DataRow> getYqM3List(String userId,
 		
 		return getJdbcTemplate().query(sql);
 	}
+   
+   
+   
+
+   public int getSdcmsUserroleid(int a){
+		String sql ="select roleid FROM sdcms_user  WHERE USER_ID="+a;	
+	    return getJdbcTemplate().queryInt(sql);
+	}
+   
+   public int getusercgjk(int userid){
+		String sql =" SELECT COUNT(*) FROM sd_new_jkyx WHERE sfyfk=1 AND sfyhw=1  AND userid ="+userid;	
+	    return getJdbcTemplate().queryInt(sql);
+	}
+   
+   
+   //營銷電話分
+   public DBPage getYXPhoneNormalSort(int curPage, int numPerPage, int cmsuserid,int roleid,String phone,String  startDate,String  endDate, String cmsid, String yxState,int product_type) throws Exception {
+		String sql = " SELECT COUNT(*) AS 'number',bz_type,bz_titel FROM sd_yingxiao_phone_normal WHERE isdelete =1 ";
+		
+//		if(roleid!=1 && roleid !=17 && roleid !=33) {
+//			sql +=  "  AND bz_ren ="+ cmsuserid;
+//		}
+		
+		if(product_type > 0) {
+			sql +=  " AND product_type = "+product_type;
+		}
+		if(!"".equals(phone)) {
+			sql +=  "  and phone ='"+phone+"'" ;
+		}
+		if(!"".equals(cmsid)) {
+			sql +=  "  and  bz_ren ="+cmsid ;
+		}
+		if(!"".equals(yxState)) {
+			sql +=  "  and state ="+yxState ;
+		}
+
+		if(!"".equals(startDate) && !"".equals(endDate)) {
+			sql +=  "  AND  SUBSTRING(create_time,1,10) >='"+startDate+"'" ;
+			sql +=  "  AND  SUBSTRING(create_time,1,10) <='"+endDate+"'" ;
+		}
+		
+		sql +=  " GROUP BY bz_type";
+		
+		return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
+	}
+   
+   
+ //电话营销2
+    public DBPage getYXPhoneNormalpage(int curPage, int numPerPage, int cmsuserid,int roleid,String phone,String  startDate,String  endDate, String cmsid, String yxState,
+    		int product_type,int bz_type,int data_type,String  startDate2,String  endDate2) throws Exception {
+		String sql = " SELECT * FROM sd_yingxiao_phone_normal  WHERE show_state =1   AND isdelete = 1 AND  product_type = "+product_type;
+		
+		if(roleid!=1 && roleid !=90 && roleid != 17) {
+			sql +=  "  AND bz_ren ="+ cmsuserid;
+		}
+		if(bz_type > -1) {
+			sql +=  " AND bz_time IS NOT NULL and  bz_type ="+bz_type ;
+		}
+		if(data_type > 0) {
+			sql +=  "  and  data_type ="+data_type ;
+		}
+		
+		if(!"".equals(phone)) {
+			sql +=  "  and phone ='"+phone+"'" ;
+		}
+		if(!"".equals(cmsid)) {
+			sql +=  "  and  bz_ren ="+cmsid ;
+		}
+		if(!"".equals(yxState)) {
+			sql +=  "  and state ="+yxState ;
+		}
+
+		if(!"".equals(startDate) && !"".equals(endDate)) {
+			sql +=  "  AND  SUBSTRING(create_time,1,10) >='"+startDate+"'" ;
+			sql +=  "  AND  SUBSTRING(create_time,1,10) <='"+endDate+"'" ;
+		}
+		if(!"".equals(startDate2) && !"".equals(endDate2)) {
+			sql +=  "  AND  CONCAT(SUBSTRING(bz_time,7,4),'-',SUBSTRING(bz_time,4,2),'-',SUBSTRING(bz_time,1,2)) >='"+startDate2+"'" ;
+			sql +=  "  AND  CONCAT(SUBSTRING(bz_time,7,4),'-',SUBSTRING(bz_time,4,2),'-',SUBSTRING(bz_time,1,2)) <='"+endDate2+"'" ;
+		}
+		
+		sql +=  " ORDER BY id DESC ";
+		
+		return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
+	}
+    
+    
+    public DataRow  getYXPhoneNormalRow(String phone,int bz_ren,int product_type){
+		String sql =" SELECT  * FROM sd_yingxiao_phone_normal WHERE  phone ='"+phone+"' AND bz_ren ="+bz_ren+" AND product_type ="+product_type ;	
+	    return getJdbcTemplate().queryMap(sql);
+	}
+    
+    public void insertYXRemarkNormalrecord(DataRow row) {
+		getJdbcTemplate().insert("sd_yingxiao_phone_normal_content", row);
+	}
+    public void updateYXPhoneNormal(DataRow row) throws Exception {
+		
+		getJdbcTemplate().update("sd_yingxiao_phone_normal", row, "id", row.getString("id"));
+	}
+    
+    // 电话号码获取 userid
+    public int getsd_user_id(String phone) {
+    	String sql =" SELECT id FROM sd_user WHERE mobilephone ='"+phone+"'";
+    	return getJdbcTemplate().queryInt(sql);
+    }
+    // 身份证获取 userid
+    public int getsd_user_finance_id(String idno) {
+    	String sql =" SELECT userid FROM sd_user_finance WHERE idno ='"+idno+"'";
+    	return getJdbcTemplate().queryInt(sql);
+    }
+    
+    // 电话号码获取 userid
+    public String getsd_user_id_createtime(String id) {
+    	String sql =" SELECT createtime FROM sd_user WHERE id ="+id;
+    	return getJdbcTemplate().queryString(sql);
+    }
+    
+ // 
+    public DataRow getsd_new_jkyxRow(String userid) {
+    	String sql =" SELECT * FROM sd_new_jkyx WHERE userid ="+userid+" AND is_old_user=0  ORDER BY  id DESC LIMIT 1";
+    	return getJdbcTemplate().queryMap(sql);
+    }
+    
+    
+    public void insertTableRow(String tableName,DataRow row) {
+		getJdbcTemplate().insert(tableName, row);
+	}
+    
+//查询添加自动过审用户列表
+   public DBPage getUserLoanpage(int curPage, int numPerPage, String phone,String idno,String cmsid,String  startDate,String  endDate) throws Exception {
+		String sql = " SELECT * FROM  sd_yingxiao_add_user_load  WHERE 1=1 ";
+		
+		
+		if(!"".equals(phone)) {
+			sql +=  "  phone ="+phone ;
+		}
+		if(!"".equals(idno)) {
+			sql +=  "  and idno ="+idno ;
+		}
+		if(!"".equals(cmsid)) {
+			sql +=  "  and cms_id ="+cmsid ;
+		}
+
+		sql += " ORDER BY id DESC";
+		return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
+	}
+   
+   /**
+    *  营销电话表
+    * @param curPage
+    * @param numPerPage
+    * @param cmsuserid
+    * @param roleid
+    * @param phone
+    * @param startDate
+    * @param endDate
+    * @param cmsid
+    * @param yxState
+    * @param product_type
+    * @return
+    * @throws Exception
+    */
+   public DBPage getYXphonefendanPage(int curPage, int numPerPage, int cmsuserid,int roleid,String phone,String  startDate,String  endDate, String cmsid, String yxState,int product_type) throws Exception {
+		//String sql = " SELECT * FROM sd_yingxiao_phone_normal  WHERE show_state =1 AND product_type = "+product_type;
+	   String sql = " SELECT * FROM sd_yingxiao_phone_normal  WHERE show_state =1  AND isdelete = 1  ";
+		
+//		if(roleid!=1 && roleid !=90  && roleid != 17) {
+//			sql +=  "  AND bz_ren ="+ cmsuserid;
+//		}
+		
+		if(!"".equals(phone)) {
+			sql +=  "  and phone ="+phone ;
+		}
+		if(!"".equals(cmsid)) {
+			sql +=  "  and  bz_ren ="+cmsid ;
+		}
+		if(!"".equals(yxState)) {
+			sql +=  "  and state ="+yxState ;
+		}
+
+		if(!"".equals(startDate) && !"".equals(endDate)) {
+			sql +=  "  AND  SUBSTRING(create_time,1,10) >='"+startDate+"'" ;
+			sql +=  "  AND  SUBSTRING(create_time,1,10) <='"+endDate+"'" ;
+		}
+		
+		sql +=  " ORDER BY id DESC ";
+		
+		return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
+	}
+   
+   public DataRow getpingjiguize(int index) {
+		String  sql ="  SELECT * FROM sd_pingjiguize WHERE id = " +index;
+		return getJdbcTemplate().queryMap(sql);
+	}
+
+
+	public List<DataRow> getfendanUserlist(String User_sql){
+   		if(!User_sql.equals("")){
+			String  sql =" SELECT user_id,NAME FROM sdcms_user WHERE 1=1 " +User_sql;
+			return getJdbcTemplate().query(sql);
+		}
+		return null;
+	}
+
+	//查询订单数
+	public int getfendanCount(int number, int user_out, int user_in, int fd_isremark) {
+
+		String sql = " SELECT * FROM sd_yingxiao_phone_normal  WHERE show_state =1  AND isdelete = 1  ";
+		if(user_out>0){
+			sql +=" AND bz_ren = "+user_out;
+		}
+		if(1 == fd_isremark){ //为空
+			sql +=" AND bz_content IS NULL";
+		}else if(2 == fd_isremark){
+			sql +=" AND bz_content IS NOT NULL";
+		}
+
+		return getJdbcTemplate().queryInt(sql);
+	}
+
+	//手动分配订单
+	public int UpdateFendanUser(int number, int user_out, int user_in, int fd_isremark,int data_type) {
+
+		String sql=  "UPDATE sd_yingxiao_phone_normal SET bz_ren ="+user_in+" where  show_state =1  AND isdelete = 1  ";
+		if(user_out>0){
+			sql +=" AND bz_ren = "+user_out;
+		}else {
+			sql +=" AND bz_ren IS NULL";
+		}
+		
+		if(data_type > 0) {
+			sql +=  "  and  data_type ="+data_type ;
+		}
+		if(1 == fd_isremark){ //为空
+			sql +=" AND bz_content IS NULL";
+		}else if(2 == fd_isremark){
+			sql +=" AND bz_content IS NOT NULL";
+		}
+		sql +=" ORDER BY RAND() LIMIT "+number;
+
+		logger.info("手动分配订单："+sql);
+		return getJdbcTemplate().update(sql);
+	}
+	
+	
+	// 获取营销数据类型
+	public List<DataRow> getDataTypeList(){
+		
+		String sql ="SELECT remark,data_type, substring(create_time,1,10) as 'create_time' FROM sd_yingxiao_phone_normal WHERE data_type > 0  GROUP BY remark  ORDER BY data_type";
+		
+		return getJdbcTemplate().query(sql);
+	}
+	
+	
+	/**
+	 *  营销页面 统计表
+	 * @param cmsuserid
+	 * @param roleid
+	 * @param phone
+	 * @param startDate
+	 * @param endDate
+	 * @param cmsid
+	 * @param yxState
+	 * @param product_type
+	 * @param data_type
+	 * @return
+	 * @throws Exception
+	 */
+	public DataRow  getyingxiaoPhoneTableRow(int cmsuserid,int roleid,String phone,String  startDate,String  endDate, String cmsid, String yxState,int product_type,int data_type,
+			String  startDate2,String  endDate2) throws Exception {
+		
+		
+		String sql ="";
+		
+		//String sql = " SELECT * FROM sd_yingxiao_phone_normal  WHERE show_state =1 AND product_type = "+product_type;
+		
+		sql +=" AND product_type = "+product_type;
+		if(roleid!=1 && roleid !=90 && roleid != 17) {
+			sql +=  "  AND bz_ren ="+ cmsuserid;
+		}
+
+		if(data_type > 0) {
+			sql +=  "  and  data_type ="+data_type ;
+		}
+		
+		if(!"".equals(phone)) {
+			sql +=  "  and phone ='"+phone+"'" ;
+		}
+		if(!"".equals(cmsid)) {
+			sql +=  "  and  bz_ren ="+cmsid ;
+		}
+		if(!"".equals(yxState)) {
+			sql +=  "  and state ="+yxState ;
+		}
+
+		if(!"".equals(startDate) && !"".equals(endDate)) {
+			sql +=  "  AND  SUBSTRING(create_time,1,10) >='"+startDate+"'" ;
+			sql +=  "  AND  SUBSTRING(create_time,1,10) <='"+endDate+"'" ;
+		}
+		if(!"".equals(startDate2) && !"".equals(endDate2)) {
+			sql +=  "  AND  CONCAT(SUBSTRING(bz_time,7,4),'-',SUBSTRING(bz_time,4,2),'-',SUBSTRING(bz_time,1,2)) >='"+startDate2+"'" ;
+			sql +=  "  AND  CONCAT(SUBSTRING(bz_time,7,4),'-',SUBSTRING(bz_time,4,2),'-',SUBSTRING(bz_time,1,2)) <='"+endDate2+"'" ;
+		}
+		
+		
+		
+		String sql_qury ="  SELECT COUNT(CASE WHEN bz_content is NULL THEN 1 END) AS 'bz_null',"
+				+ " COUNT(*) AS 'bz_type_',COUNT(case WHEN bz_type =0  AND bz_content IS NOT NULL THEN 1 END) AS 'bz_type_0',"
+				+ "COUNT(case WHEN bz_type =1 THEN 1 END) AS 'bz_type_1',"
+				+ "COUNT(case WHEN bz_type =2 THEN 1 END) AS 'bz_type_2',"
+				+ "COUNT(case WHEN bz_type =3 THEN 1 END) AS 'bz_type_3',"
+				+ "COUNT(case WHEN bz_type =4 THEN 1 END) AS 'bz_type_4',"
+				+ "COUNT(case WHEN bz_type =5 THEN 1 END) AS 'bz_type_5',"
+				+ "COUNT(case WHEN bz_type =6 THEN 1 END) AS 'bz_type_6',"
+				+ "COUNT(case WHEN bz_type =7 THEN 1 END) AS 'bz_type_7',"
+				+ "COUNT(case WHEN bz_type =8 THEN 1 END) AS 'bz_type_8',"
+				+ "COUNT(case WHEN bz_type =9 THEN 1 END) AS 'bz_type_9' ,";
+			sql_qury +=" ( SELECT COUNT(*) FROM (SELECT phone FROM sd_yingxiao_phone_normal_content  WHERE "
+					+ "phone in( SELECT phone FROM sd_yingxiao_phone_normal WHERE show_state =1"+
+					sql+" ) GROUP BY PHONE  HAVING COUNT(PHONE) >1) table_c) AS 'bz_num'";
+		  	sql_qury +=" FROM sd_yingxiao_phone_normal  p_normal	WHERE show_state =1  ";
+		  	
+		  	sql_qury+= sql;
+		   sql_qury +=  " ORDER BY id DESC ";
+		
+		
+		
+		
+		return getJdbcTemplate().queryMap(sql_qury);
+	}
+	
+	
+	/**
+	 * 关闭营销订单
+	 * @param row
+	 * @throws Exception
+	 */
+	public void updateyingxiaoOrderID(DataRow row) throws Exception {
+
+		getJdbcTemplate().update("sd_yingxiao_phone_normal", row, "id", row.getString("id"));
+	}
 }
