@@ -6511,10 +6511,27 @@ public  ActionResult doAddSHBeizfb() throws Exception {
 			}
 			logger.info("请求ID:" + cmsuserid);
 			
-		  
+			String str_user  = " AND (roleid = 90 OR roleid =91) AND state =1 ";
+			List<DataRow> rowlist = jbdcms2Service.getfendanUserlist(str_user);
 			// 需要分配人员
 			DataRow row302 = jbdcms2Service.getpingjiguize(302);  //  营销人员名单 处理人员名单
 			String  userlist =row302.getString("guizebianliang1");
+			if(!userlist.equals("")) {
+				for(DataRow row :rowlist) {
+					userlist+=","+row.getString("user_id");
+				}
+			}else {
+				int  count = 0;
+				for(DataRow row :rowlist) {
+					if(0 == count) {
+						userlist+=row.getString("user_id");
+					}else {
+						userlist+=","+row.getString("user_id");
+					}
+					count++;
+					
+				}
+			}
 			String userzu302[] = userlist.split(",");
 			int zu_num = 0;
 			String str_sql="";
@@ -6534,6 +6551,8 @@ public  ActionResult doAddSHBeizfb() throws Exception {
 				}
                zu_num++;
 			}
+			
+			
 
 		  List<DataRow> list = jbdcms2Service.getfendanUserlist(str_sql);
 			DataRow row = new DataRow();

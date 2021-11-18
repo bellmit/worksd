@@ -31,59 +31,56 @@
          <input type="hidden" id="total_" value="1"/>
           <input type="hidden" id="starTime" value=""/>
           <input type="hidden" id="endTime" value=""/>
-            <input type="hidden" id="startImportDate" value=""/>
-          <input type="hidden" id="endImportDate" value=""/>
+            <input type="hidden" id="starTime2" value=""/>
+          <input type="hidden" id="endTime2" value=""/>
       </div>
       </div>
       
     <!-- ，搜索区域 -->
-  <div class="row" style="margin-top: 10px;">
+    <div class="row" style="margin-top: 10px;">
         <div class="col-md-12">
             <div class="widget box">
                 <div class="widget-header">
-                    <h4>
-                        <div class="widget-header">
                     <h4>
                         <i class="fa fa-reorder">
                         </i>
                          Tra xem
                     </h4>
                 </div>
-                <div class="widget-content" style="height: 117px;width: 197%;margin-top: 2px;">
-                    <div class="form-group">
-                     
-			       <label class="col-md-0 control-label" style="padding-top:5px;">
-                                      Loại dữ liệu :     
-			            </label>
-			         <div class="col-md-3" style="width:200px;">
-			         <select class="form-control" name="select" id="dataTypeSelect">
-			          <option id="tempVelue" value="">Mời chọn----</option> 
-			         </select>
-                        </div> 
-                              </div>
-                         <label class="col-md-0 control-label" style="margin-top: -6px" >
-                        Thời gian chú thích:
-                       </label>
-			             <div class="col-md-4"  style="margin-top: -14px">
-                                <input type="text" name="regular" style="width:200px;" class="form-control datepicker" id="date1" onBlur="onb()">
-                              </div>
-               
-                        <label class="col-md-0 control-label"  style="top: -5px;right: 15%;">
-                         Thời gian nhập :
-                       </label>
-			             <div class="col-md-4"  >
-                                <input type="text" name="regular" style="margin-top: -32px;width: 200px;margin-left: 199%;margin-right: -138px;" class="form-control datepicker" id="importDate" onBlur="importDate()">
-                              </div>
-                        <button id="btn-load" class="btn btn-primary" data-loading-text="loading..." style="left: 122px;top: -15px;">
-                       Tra xem
-                        </button>
+                <div class="widget-content">
+                    
+                   <div class="widget-header" style="min-height: 50px;">
+                        <div >
                         
-                    </div>
+                            <label class="col-md-1 control-label" >
+                                        Loại dữ liệu :     
+                            </label>
+                            <div class="col-md-2">
+                                <select class="form-control" name="select" id="dataTypeSelect">
+                                    <option id="tempVelue" value="">Mời chọn----</option> 
+                                </select>
+                            </div> 
+                        </div>
+                    
 
+                        <div class="col-md-2" >
+                            <input type="text" name="regular" class="form-control datepicker" id="date1" onBlur="onb()" placeholder="Thời gian nhập">
+                        </div> 
+
+                        <div class="col-md-2">
+                            <input type="text" name="regular" class="form-control datepicker" id="date2" onBlur="onb()" placeholder="Thời gian ghi chú">
+                        </div> 
+                        <div class="col-md-2">
+                            <button id="btn-load" class="btn btn-primary" data-loading-text="loading..." >
+                            Tra xem
+                            </button>
+                        </div>    
+                    </div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
+ 
 
     <!-- ，数据区域 -->
     <div class="row">
@@ -107,42 +104,45 @@
                             			ID thành viên  <!-- 催收id -->
                             </th>
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            		Tổng số hồ sơ   <!-- 总新的用户 -->
+                            		Tổng số hồ sơ  (分配总数)
                             </th>
             				<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			总备注数
+                            			Tổng ghi chú（总备注数）
                             </th>
               			    <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-              			    			 总注册数
+              			    			 Tổng số đăng ký（总注册数）
+                            </th>
+                            <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
+              			    			 Tỷ lệ chuyển hoá（转化率）
                             </th>
                          	<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                                                                                                                                        总提交借款数
+                                     Tổng yêu cầu vay (总提交借款数)
                             </th>
                         	<th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                        				 总放款数
+                        				Tổng khoản vay thành công(总放款数))
                             </th> 
                            
                              <th style=" font-size:14px; font-weight:bold;text-align:center;" id="ll">
-                                                                                                                                    总还款数
+                                        Tổng yêu cầu vay(总还款数)
                             </th>
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			总逾期未还数
+                            		Tổng khoản vay quá hạn chưa hoàn trả(总逾期未还数)
                             </th> 
                             
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			今日分配数
+                            			Phân bổ trong ngày(今日分配数)
                             </th>
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			今日备注数
+                            			Ghi chú trong ngày（今日备注数）
                             </th>  
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			今日注册数
+                            			Đăng ký trong ngày（今日注册数）
                             </th>  
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			今日提交借款数
+                            			Yêu cầu vay trong ngày（今日提交借款数）
                             </th>  
                             <th   style=" font-size:14px; font-weight:bold;text-align:center;" id="ll" >
-                            			今日放款数
+                            			Vay thành công trong ngày（今日放款数）
                             </th>  
                           
                         </tr>
@@ -195,8 +195,8 @@
         var tempval=$("#dataTypeSelect").val();
         var starTime=$("#starTime").val();
         var endTime=$("#endTime").val();
-        var startImportDate=  $("#startImportDate").val();
-	    var endImportDate = $("#endImportDate").val();
+        var startImportDate=  $("#starTime2").val();
+	    var endImportDate = $("#endTime2").val();
         var option_data_type=""; 
         var para={endImportDate:endImportDate,startImportDate:startImportDate,curPage:$("#cupage").val(),temp:tempsele,tempvl:tempval,startDate:starTime,endDate:endTime,recode:recode_};
         var formurl = "/servlet/current/AccountShenheAction?function=getDataBySaleMan";
@@ -207,13 +207,14 @@
             var dataTypes =data.dataTypes;
             //先清除再添加
          $("#dataTypeSelect").empty();
+             $("#dataTypeSelect").append("<option value='0' id='tempVelue'>  Toàn bộ (DATA_A) </option>") ;//新增
             for(var i = 0; i < data.dataTypes.length; i++){
 			  $("#dataTypeSelect").append("<option value='"+data.dataTypes[i].data_type+"' id='tempVelue'>"+"DATA_"+data.dataTypes[i].data_type+"-"+data.dataTypes[i].create_time+"</option>") ;//新增
 			 }
 			/*  $("#dataTypeSelect option:eq(0)").attr('selected', 'selected'); *///选中第一个
            /*  alert($("#tempVelue").val()) */
 
-
+           
             $("#load_data").html("");
 	        var list = data.list.data;
             
@@ -232,6 +233,7 @@
                     +"<td>"+list[i].phone_num+"</td>"
                     +"<td>"+list[i].sum_remark_orders+"</td>"
                     +"<td>"+list[i].zc_user+"</td>"
+                    +"<td>"+ (list[i].zc_user*100/list[i].phone_num).toFixed(2)+"%"+"</td>"
                     +"<td>"+list[i].total_order+"</td>"
                     +"<td>"+list[i].success_order+"</td>"
                     +"<td>"+list[i].success_repay_order+"</td>"
@@ -248,7 +250,7 @@
                 }
         	} 
             $("#load_data").append(html_);
-           /*  $("#tempselect").val(data.temp); */
+           $("#dataTypeSelect").val(data.tempvalu);
             $("#tempVelue").val(data.tempvalu);
             page_value(data);
             page_data();

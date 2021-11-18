@@ -613,7 +613,7 @@ function encrypt(pwd) {
 					var list = data.list;
 					var html_="<option value='0'>     Toàn bộ (DATA_A) </option>";
 					for (var i = 0; i < list.length; i++) {
-						html_ +="<option value='"+list[i].data_type+"'>DATA_"+list[i].data_type+" - "+list[i].create_time+"</option>";
+						html_ +="<option value='"+list[i].data_type+"'>DATA_"+list[i].data_type+" - "+list[i].create_time+"  ["+list[i].num+"]</option>";
 					}
 										
 					$("#tempselect_type").html('').append(html_);

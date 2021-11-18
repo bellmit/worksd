@@ -5118,7 +5118,7 @@ public List<DataRow> getYqM3List(String userId,
 	// 获取营销数据类型
 	public List<DataRow> getDataTypeList(){
 		
-		String sql ="SELECT remark,data_type, substring(create_time,1,10) as 'create_time' FROM sd_yingxiao_phone_normal WHERE data_type > 0  GROUP BY remark  ORDER BY data_type";
+		String sql ="SELECT COUNT(*) as 'num',remark,data_type, substring(create_time,1,10) as 'create_time' FROM sd_yingxiao_phone_normal WHERE data_type > 0  GROUP BY remark  ORDER BY data_type";
 		
 		return getJdbcTemplate().query(sql);
 	}
@@ -5210,5 +5210,14 @@ public List<DataRow> getYqM3List(String userId,
 	public void updateyingxiaoOrderID(DataRow row) throws Exception {
 
 		getJdbcTemplate().update("sd_yingxiao_phone_normal", row, "id", row.getString("id"));
+	}
+	
+	
+	public List<DataRow> getyingxiaoUserlist(String User_sql){
+   		if(!User_sql.equals("")){
+			String  sql =" SELECT user_id,NAME FROM sdcms_user WHERE 1=1 " +User_sql;
+			return getJdbcTemplate().query(sql);
+		}
+		return null;
 	}
 }
