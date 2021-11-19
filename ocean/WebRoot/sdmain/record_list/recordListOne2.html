@@ -151,6 +151,9 @@ a:hover {text-decoration: none;}
 		                        </th>
 		                        <th>
 		                          Giới tính(性别)
+								</th>
+								<th>
+		                          Người giới thiệu(推荐人)
 		                        </th>
 		                        <th class="hidden-xs">
 		                         Thời gian đề xuất vay(申请贷款时间)
@@ -335,6 +338,7 @@ $(function(){
 					   sexInfo="đàn bà";
 					}
 					html_ += " <td>"+sexInfo+"</td>";
+					html_ +="<td>"+list[i].refferee+"</td>";
 					html_ += " <td>"+list[i].create_date+"</td>";
 					html_ += " <td>"+list[i].jk_money+"</td>";
 					if(list[i].jk_date==1){

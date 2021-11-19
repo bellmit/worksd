@@ -6058,7 +6058,7 @@ public class JBDcmsAction extends BaseAction {
 				}
 				
 				int jk_status = jbdcmsService.getuserPhotoJKid(userid+"");
-				if( (filename.contains("jpg")  || filename.contains("png")) &&  (filetype ==1 || filetype ==2 || filetype ==3) &&  jk_status >0) {
+				if( (filename.contains("jpg")  || filename.contains("png")) &&  (filetype ==1 || filetype ==2 || filetype ==3) &&  jk_status >=0) {
 					if(1==filetype) {
 						String p1 = jbdcmsService.getUserpicP1(userid);
 						DataRow row = new DataRow();
@@ -6198,12 +6198,24 @@ public class JBDcmsAction extends BaseAction {
 				String tempVelue = getStrParameter("tempvl");
 				String startDate = getStrParameter("startDate");
 				String endDate = getStrParameter("endDate");
-				int userid = getIntParameter("userid", 0);
-				if(userid <= 0) {
+				String tempval = getStrParameter("tempval");
+				int tempsele = getIntParameter("tempsele", 0);
+				if(tempsele <= 0) {
 					jsonObject.put("error", -1);
-					jsonObject.put("msg", "id error is "+userid);
+					jsonObject.put("msg", "tempsele error is "+tempsele);
 					this.getWriter().write(jsonObject.toString());	
 					return null;
+				}
+				
+				int userid  = 0;
+				String phone  ="";
+				String idno ="";
+				if(1== tempsele) {
+					userid = Integer.parseInt(tempval);
+				}else if(2== tempsele) {
+					userid =  jbdcmsService.getUserMobilephone(tempval);
+				}else if(3== tempsele) {
+					userid =  jbdcmsService.getUserIDSF(tempval);
 				}
 
 				logger.info("请求ID:" + cmsuserid);

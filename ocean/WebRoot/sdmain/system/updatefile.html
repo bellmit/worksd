@@ -68,7 +68,7 @@ a:hover {text-decoration: none;}
 			                              <input type="hidden" name="fileUrl" id="fileUrl"/>
 			                              
 			                                  <div class="form-group">
-			                                   <div class="col-md-1" style="width:200px;">
+			                                   <div class="col-md-1" style="width:300px;">
 								                      <select class="form-control" name="select" id="filetype" onChange="gradeChange()" >
 								                          <option value="1">
 								                          		Mặt trước(身份证-正面)
@@ -140,8 +140,21 @@ a:hover {text-decoration: none;}
 						  </div>
 		                    <div class="form-group">
 								<div>
-	                                 <div class="col-md-6">
-	                                     <label class="col-md-3 control-label">Mã số khách hàng：</label>
+
+									<div class="col-md-2" style="width:300px;">
+										<select class="form-control" name="select_info" id="select_info" onChange="gradeChange_info()" >
+											<option value="1">
+												Mã số khách hàng
+											</option>
+											<option value="2">
+												Số ĐTDĐ
+											</option>
+											<option value="3">
+												Số CMND
+											</option>
+										</select>
+									</div>
+	                                 <div class="col-md-3">
 	                                     <input type="text" name="userid" id="userid" style="width:200px; height:40px;" placeholder="Xin nhập điều kiện tìm kiếm">
 	                                 </div>
 	                             </div>            
@@ -455,6 +468,7 @@ a:hover {text-decoration: none;}
 	   }
 	   $("#filetype").val(tempselect);
    }
+   
   var filetype= $("#filetype").val();
   $("#filetype").val(filetype);
   $("#fileUrl").val("/servlet/current/JBDcmsAction?function=GetUploadUpdatefile");
@@ -469,11 +483,19 @@ a:hover {text-decoration: none;}
 	
 	});
   
+	function gradeChange_info(){
+	   var tempselect=$("#select_info").val();
+	   if(tempselect==0){
+	       $("#select_info").val("");
+	   }
+	   $("#select_info").val(tempselect);
+   }
+
   function load_data(){
 	 
-	  var tempsele= "";  //$("#tempselect").val();
-	  var tempval= "";  //$("#tempVelue").val();
-	  if(tempsele!=null && tempsele!=0)
+	  var tempsele= $("#select_info").val();
+	  var tempval= $("#userid").val();
+	  if(tempsele==null && tempsele==0)
 	  {
 		  if(tempval=="")
 		  {
@@ -485,7 +507,7 @@ a:hover {text-decoration: none;}
 
 	  var starTime= "";  //$("#starTime").val();
 	  var endTime= "";  //$("#endTime").val();
-	  var para={curPage:$("#cupage").val(),temp:tempsele,tempvl:tempval,startDate:starTime,endDate:endTime,userid:$("#userid").val()};
+	  var para={curPage:$("#cupage").val(),temp:tempsele,tempvl:tempval,startDate:starTime,endDate:endTime,tempsele:tempsele,tempval:tempval};
 	  loadGetServer("/servlet/current/JBDcmsAction?function=GetUpdateUserinfoPage",para,function(data){
 		  $("#load_data").html("");
 		  
@@ -494,8 +516,8 @@ a:hover {text-decoration: none;}
 				  var html_="";
 				  for(var i=0;i<list.length;i++){
 					  html_ += "<tr>";
-					  html_ += "<td>"+list[i].useridmm+"</td>";
-					  html_ += "<td>"+list[i].usernamemm+"</td>";
+					  html_ += "<td>"+list[i].id+"</td>";
+					  html_ += "<td>"+list[i].username+"</td>";
 					  html_ += "<td>"+list[i].mobilephone+"</td>";
 					  
 					  if(list[i].isshenfen == 0){

@@ -6186,12 +6186,13 @@ public  ActionResult doAddSHBeizfb() throws Exception {
 		   int product_type = getIntParameter("p_type", 0);    //  很好--10、  好B--20 , 其他来源用户名单 --30一般
 		   
 		   if(cmsuser_id!=0 && !"".equals(phone)  ) {
-			   DataRow prow = jbdcms2Service.getYXPhoneNormalRow(phone,cmsuser_id,product_type);
-			   if(null !=prow) {
+			   DataRow prow = jbdcms2Service.getYXPhoneNormalRow(phone,-1,product_type);
+			   if(null !=prow ) {
 				   Date date=new Date();
 				   DateFormat format=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				   String time=format.format(date);
 				   
+				   prow.set("bz_ren",cmsuser_id);
 				   prow.set("bz_content",remark );
 				   prow.set("bz_time",time );
 				   prow.set("bz_type", labval);

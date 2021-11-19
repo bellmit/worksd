@@ -7,8 +7,8 @@ var policyText = {
 
 
 
-accessid = 'LTAI4FmJjtKEwbMf4rRrda51';
-accesskey = 'qI4a7hGEt88y6MupRp0WjuTA2OAJcm';
+accessid = 'LTAI5t652MW7PtC3RXfqdhhZ';
+accesskey = 'TEJAjep0eCOTOW9SiW7YJjG8GnxFtU';
 host = 'http://yn-ocean.oss-cn-hongkong.aliyuncs.com';
 
 

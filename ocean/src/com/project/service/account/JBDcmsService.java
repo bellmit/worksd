@@ -3276,6 +3276,12 @@ public class JBDcmsService extends BaseService {
 				return getJdbcTemplate().queryString(sb.toString());
 		}
 			
+			public int getUserMobilephone(String mobilephone) {
+				StringBuffer sb = new StringBuffer();
+				sb.append("select id from sd_user  where mobilephone='" + mobilephone+"'");
+				return getJdbcTemplate().queryInt(sb.toString());
+		}
+			
 	 //上传视频借款ID
 		 public String getvideoguize(){
 				String sql = "SELECT guizebianliang1 FROM  sd_pingjiguize WHERE id =19";
@@ -3335,7 +3341,7 @@ public class JBDcmsService extends BaseService {
 			
 			 public DBPage GetUpdateUserinfoPage(int curPage, int numPerPage, int userid, String startDate, String endDate) {
 					// TODO Auto-generated method stub
-					String sql ="SELECT id ,mobilephone,islianxi,isshenfen,yhbd FROM sd_user WHERE id ="+userid;
+					String sql ="SELECT id ,username,mobilephone,islianxi,isshenfen,yhbd FROM sd_user WHERE id ="+userid;
 					
 					return getJdbcTemplate().queryPage(sql, curPage, numPerPage);
 				}

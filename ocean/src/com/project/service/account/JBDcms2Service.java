@@ -4958,7 +4958,13 @@ public List<DataRow> getYqM3List(String userId,
     
     
     public DataRow  getYXPhoneNormalRow(String phone,int bz_ren,int product_type){
-		String sql =" SELECT  * FROM sd_yingxiao_phone_normal WHERE  phone ='"+phone+"' AND bz_ren ="+bz_ren+" AND product_type ="+product_type ;	
+		String sql =" SELECT  * FROM sd_yingxiao_phone_normal WHERE  phone ='"+phone+"'  AND product_type ="+product_type ;	
+		
+		if(bz_ren > 0) {
+			sql += " AND bz_ren ="+bz_ren;
+		}
+		
+	
 	    return getJdbcTemplate().queryMap(sql);
 	}
     

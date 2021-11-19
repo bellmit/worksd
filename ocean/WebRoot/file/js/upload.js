@@ -5,9 +5,9 @@ var policyText = {
 	]
 };
 
-accessid = 'LTAIgc2jHlbGKKYP';
-accesskey = 'DexBHgiaSHNImkvQZe1BKBclxUoXzF';
-host = 'http://mofah5.oss-cn-hongkong.aliyuncs.com';
+accessid = 'LTAI5t652MW7PtC3RXfqdhhZ';
+accesskey = 'TEJAjep0eCOTOW9SiW7YJjG8GnxFtU';
+host = 'yn-ocean.oss-cn-hongkong.aliyuncs.com';
 
 var policyBase64 = Base64.encode(JSON.stringify(policyText))
 message = policyBase64
