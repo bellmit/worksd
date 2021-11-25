@@ -9,7 +9,8 @@
     }
     a:hover {text-decoration: none;}
 </style>
-
+<script type="text/javascript" src="/sdmain/js/date_time.js"></script>
+<script type="text/javascript" src="/plugins/date_page/page.js"></script>
 <div  class="container">
     <!-- ，头导向 -->
 	 <div class="crumbs"> 
@@ -189,6 +190,33 @@
 
 <script>    
         
+
+    
+	function showtime(day) {
+		var dtNow=new Date();
+		var nowdate = new Date(dtNow.getTime()+day*24*60*60*1000);
+
+		var year = nowdate.getFullYear(),
+			month = nowdate.getMonth() + 1,
+			date = nowdate.getDate();
+		var strmonth =""+month;
+		if(month < 10){
+			strmonth ="0"+month;
+		}
+		var strdate =""+date;
+		if(date < 10){
+			strdate ="0"+date;
+		}
+
+		return year + "-" + strmonth + "-" + strdate;
+	}
+	$("#starTime").val(showtime(-30));
+	$("#endTime").val(showtime(0));
+	var varstarTime=$("#starTime").val();
+	var varendTime=$("#endTime").val();
+	
+    $("#date1").val(varstarTime+" Để "+varendTime);
+    
     function load_data(){
         var recode_ = 3;
         var tempsele=$("#tempselect").val();
@@ -281,6 +309,3 @@
     
 </script>
 
-<script type="text/javascript" src="/sdmain/js/date_time.js"></script>
-<script type="text/javascript" src="/plugins/date_page/page.js">
-</script>

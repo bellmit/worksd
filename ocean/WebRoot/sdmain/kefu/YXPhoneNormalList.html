@@ -477,6 +477,34 @@ function encrypt(pwd) {
         
 <script>
 
+	
+	function showtime(day) {
+		var dtNow=new Date();
+		var nowdate = new Date(dtNow.getTime()+day*24*60*60*1000);
+
+		var year = nowdate.getFullYear(),
+			month = nowdate.getMonth() + 1,
+			date = nowdate.getDate();
+		var strmonth =""+month;
+		if(month < 10){
+			strmonth ="0"+month;
+		}
+		var strdate =""+date;
+		if(date < 10){
+			strdate ="0"+date;
+		}
+
+		return year + "-" + strmonth + "-" + strdate;
+	}
+	$("#starTime").val(showtime(-30));
+	$("#endTime").val(showtime(0));
+	var varstarTime=$("#starTime").val();
+	var varendTime=$("#endTime").val();
+	console.log(varstarTime)
+	
+	$("#date1").val(varstarTime+" Để "+varendTime);
+	
+
 	$("#li_list li").on("click",function(){ //核心代码
 	　　 var a =$(this).attr("id"); //获取每个li的value值
 	   $("#tabpanel_val").val(a);

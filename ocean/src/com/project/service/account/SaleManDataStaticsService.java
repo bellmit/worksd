@@ -265,11 +265,14 @@ public class SaleManDataStaticsService extends BaseService{
 	
 	
 	//注册用户数量
-	public int geyingxiaoPhonetUserCount(Integer dataType,String startDate, String endDate,String startImportDate, String endImportDate,int isToday) {
+	public int geyingxiaoPhonetUserCount(Integer bz_ren ,Integer dataType,String startDate, String endDate,String startImportDate, String endImportDate,int isToday) {
 		StringBuffer sb =new StringBuffer();
 		 sb.append(" SELECT COUNT(*) FROM sd_user  u LEFT JOIN  sd_yingxiao_phone_normal p ON u.mobilephone = p.phone   WHERE p.product_type =20 AND p.show_state =1 ");
 		if(dataType > 0) {
 			 sb.append( "  and  p.data_type ="+dataType );
+		 }
+		if(bz_ren > 0) {
+			 sb.append( "  and  p.bz_ren ="+bz_ren );
 		 }
 		 
 		if(1 == isToday ) {
@@ -301,7 +304,7 @@ public class SaleManDataStaticsService extends BaseService{
 	
 	
 	//查询借款情况
-	public DataRow geyingxiaoPhonetJKRow(Integer dataType,String startDate, String endDate,String startImportDate, String endImportDate,int isToday) {
+	public DataRow geyingxiaoPhonetJKRow(Integer bz_ren ,Integer dataType,String startDate, String endDate,String startImportDate, String endImportDate,int isToday) {
 		StringBuffer sb =new StringBuffer();
 		 sb.append(" SELECT  COUNT(DISTINCT j.userid) AS 'tj_num', COUNT(CASE WHEN j.sfyfk = 1 THEN 1 END) AS 'fk_num', COUNT(CASE WHEN j.sfyfk = 1  AND j.sfyhw =1 THEN 1 END) AS 'hk_num',");
 		 sb.append( " COUNT(CASE WHEN j.sfyfk = 1  AND j.sfyhw =0 AND j.yuq_ts > 0 THEN 1 END) AS 'yq_num' FROM sd_user  u");
@@ -310,7 +313,9 @@ public class SaleManDataStaticsService extends BaseService{
 		if(dataType > 0) {
 			 sb.append( "  and  data_type ="+dataType );
 		 }
-		 
+		if(bz_ren > 0) {
+			 sb.append( "  and  p.bz_ren ="+bz_ren );
+		 }
 		if(1 == isToday ) {
 			if(!"".equals(endDate)) {
 				 sb.append(	"  AND  SUBSTRING(u.yearmonthday,1,10) ='"+endDate+"'" );

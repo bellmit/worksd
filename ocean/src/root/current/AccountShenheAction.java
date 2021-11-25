@@ -4708,7 +4708,7 @@ public class AccountShenheAction extends BaseAction {
 				List<DataRow> list=page.getData();
 				for (int i=0 ;i<list.size();i++) {
 					DataRow dataRow = list.get(i);
-					String bz_ren = dataRow.getString("bz_ren");
+					int bz_ren = dataRow.getInt("bz_ren");
 					int total = dataRow.getInt("total");
 					int total_now = dataRow.getInt("total_now");
 					int bz_content = dataRow.getInt("bz_content");
@@ -4728,8 +4728,8 @@ public class AccountShenheAction extends BaseAction {
 					map.put("sum_remark_orders", bz_content);//总备注
 					map.put("today_remark_orders", bz_content_now);//今日备注
 					
-					int zc_user =  saleManService.geyingxiaoPhonetUserCount(dataType,startDate,endDate,startImportDate,endImportDate,-1);
-					int zc_user_today =  saleManService.geyingxiaoPhonetUserCount(dataType,startDate,endDate,startImportDate,endImportDate,1);
+					int zc_user =  saleManService.geyingxiaoPhonetUserCount(bz_ren,dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					int zc_user_today =  saleManService.geyingxiaoPhonetUserCount(bz_ren,dataType,startDate,endDate,startImportDate,endImportDate,1);
 					map.put("zc_user", zc_user);//总注册
 					map.put("zc_user_today", zc_user_today);//今日注册
 					zs_zc_user += zc_user;
@@ -4739,7 +4739,7 @@ public class AccountShenheAction extends BaseAction {
 					map.put("success_order", 0);
 					map.put("success_repay_order", 0);
 					map.put("success_overday_order", 0);
-					DataRow jk_row = saleManService.geyingxiaoPhonetJKRow(dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					DataRow jk_row = saleManService.geyingxiaoPhonetJKRow(bz_ren,dataType,startDate,endDate,startImportDate,endImportDate,-1);
 					if(null != jk_row) {
 						map.put("total_order", jk_row.getInt("tj_num"));
 						map.put("success_order", jk_row.getInt("fk_num"));
@@ -4755,7 +4755,7 @@ public class AccountShenheAction extends BaseAction {
 					map.put("today_success_order", 0);
 					map.put("today_success_repay_order", 0);
 					map.put("today_success_overday_order", 0);
-					DataRow today_jk_row = saleManService.geyingxiaoPhonetJKRow(dataType,startDate,endDate,startImportDate,endImportDate,-1);
+					DataRow today_jk_row = saleManService.geyingxiaoPhonetJKRow(bz_ren,dataType,startDate,endDate,startImportDate,endImportDate,1);
 					if(null != today_jk_row) {
 						map.put("today_total_order", today_jk_row.getInt("tj_num"));
 						map.put("today_success_order", today_jk_row.getInt("fk_num"));
