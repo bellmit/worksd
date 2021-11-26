@@ -6806,4 +6806,72 @@ public class JBDcmsAction extends BaseAction {
 				return null;
 
 			}
+			
+			
+			
+			public ActionResult doGetRecordListThreeDelete() throws Exception {
+				logger.info("进入借款审核三审关闭");
+				JSONObject jsonObject = new JSONObject(); // 后台登录账户
+			    int cmsuserid =SessionHelper.getInt("cmsuserid", getSession());
+			    cmsuserid =accessVeritifivationbase.checkCMSidAndip(cmsuserid, getipAddr());
+			    if(cmsuserid==0){
+						jsonObject.put("error", -1);
+						jsonObject.put("msg", "Vui lòng đăng nhập trước");
+						this.getWriter().write(jsonObject.toString());	
+						return null;		
+				}
+				logger.info("请求ID:" + cmsuserid);
+				
+				SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				String time = format.format(new Date());
+				
+				int orderid = getIntParameter("orderid", 0);
+				int step = getIntParameter("step", 0);
+				if(1==step) {
+					String sql = "SELECT COUNT(*) FROM sd_new_jkyx WHERE cl_status =  0 AND id = "+orderid;
+					int jkcount = jbdcmsService.getOrderJK(sql);
+					if(jkcount > 0) {
+						DataRow row = new DataRow();
+						row.set("id", orderid);
+						
+						row.set("cl_yj", "close order");
+						row.set("cl_time", time);
+						row.set("cl_ren", cmsuserid);
+						row.set("cl_status", 3);
+						jbdcmsService.updateUserJk(row);
+					}
+				}else if(2==step) {
+					String sql = "SELECT COUNT(*) FROM sd_new_jkyx WHERE cl_status = 1 AND cl02_status = 0 AND id = "+orderid;
+					int jkcount = jbdcmsService.getOrderJK(sql);
+					if(jkcount > 0) {
+						DataRow row = new DataRow();
+						row.set("id", orderid);
+						
+						row.set("cl02_yj", "close order");
+						row.set("cl02_time", time);
+						row.set("cl02_ren", cmsuserid);
+						row.set("cl02_status", 3);
+						jbdcmsService.updateUserJk(row);
+					}
+				}else if(3==step) {
+					String sql = "SELECT COUNT(*) FROM sd_new_jkyx WHERE cl_status = 1 AND cl02_status =1 AND cl03_status =0 AND id = "+orderid;
+					int jkcount = jbdcmsService.getOrderJK(sql);
+					if(jkcount > 0) {
+						DataRow row = new DataRow();
+						row.set("id", orderid);
+						
+						row.set("cl03_yj", "close order");
+						row.set("cl03_time", time);
+						row.set("cl03_ren", cmsuserid);
+						row.set("cl03_status", 3);
+						jbdcmsService.updateUserJk(row);
+					}
+				}
+				
+				
+				jsonObject.put("error", 1);
+				jsonObject.put("msg", "success");
+				this.getWriter().write(jsonObject.toString());
+				return null;
+			}
 }

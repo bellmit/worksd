@@ -3371,4 +3371,9 @@ public class JBDcmsService extends BaseService {
 					String  sql ="  SELECT * FROM sd_pingjiguize WHERE id = " +index;
 					return getJdbcTemplate().queryMap(sql);
 				}
+				
+				
+				public int getOrderJK(String sql) {
+					return getJdbcTemplate().queryInt(sql);
+				}
 }
