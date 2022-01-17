@@ -543,15 +543,16 @@ public class AotuZDSHALLService extends BaseService
 	/**
 	 * 获取每日逾期状态的没有分配借款信息
 	 */
-	public List<DataRow> getAllYQList(String ri, String yue,String cuishouZ)
+	public List<DataRow> getAllYQList(String time111, String nextDay,String cuishouZ)
 	{		
-		//String sql = " select sd_new_jkyx.id,sd_user.username from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1 and cuishou_id=0 ";
-		String sql = " select sd_new_jkyx.id,sd_user.username from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1  ";
+//		String sql = " select sd_new_jkyx.* from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1 and cuishou_id=0 ";
+		String sql = " select sd_new_jkyx.id from  sd_new_jkyx left join sd_user on sd_new_jkyx.userid=sd_user.id where  sfyhw=0 and sfyfk=1   ";
 		sql +=cuishouZ;
-		sql += " and ((SUBSTRING(hkyq_time,1,2) ='" + ri + "'";
-		sql += " and SUBSTRING(hkyq_time,4,2) ='" + yue+ "')";
-		sql += " or (SUBSTRING(hkfq_time,1,2) ='" + ri + "'";
-		sql += " and SUBSTRING(hkfq_time,4,2) ='" + yue+ "'))";
+		sql += " and (( hkfq_time IS NULL  AND CONCAT(SUBSTRING(hkyq_time,7,4),SUBSTRING(hkyq_time,3,4),SUBSTRING(hkyq_time,1,2) )>='" + time111 + "'";
+		sql += " and CONCAT(SUBSTRING(hkyq_time,7,4),SUBSTRING(hkyq_time,3,4),SUBSTRING(hkyq_time,1,2) ) <='" + nextDay+ "')";
+		sql += " or (hkfq_time IS NOT NULL  AND  CONCAT(SUBSTRING(hkfq_time,7,4),SUBSTRING(hkfq_time,3,4),SUBSTRING(hkfq_time,1,2) ) >='" + time111 + "'";
+		sql += " and CONCAT(SUBSTRING(hkfq_time,7,4),SUBSTRING(hkfq_time,3,4),SUBSTRING(hkfq_time,1,2) ) <='" + nextDay+ "'))";
+		
 		return getJdbcTemplate().query(sql);
 	}
 	/**

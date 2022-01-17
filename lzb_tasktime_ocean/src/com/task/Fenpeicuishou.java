@@ -34,6 +34,7 @@ public class Fenpeicuishou implements Task {
         //中国方式的当前时间表示
         SimpleDateFormat fmtrq  = new SimpleDateFormat("yyyy-MM-dd");
 		String time111 = fmtrq.format(new Date());
+		String time_next = fmtrq.format(calendar.getTime());
 		
         if(today.substring(3, 5).equals(nextDay.substring(3, 5))){
         	ri= nextDay.substring(0, 2);
@@ -75,7 +76,7 @@ public class Fenpeicuishou implements Task {
 		
 		
 		// 这里提取的是什么用户借款表,客服分单
-		List<DataRow> list = aotuZDSHALLService.getAllYQList(ri, yue,sql);
+				List<DataRow> list = aotuZDSHALLService.getAllYQList(time111,time_next,sql);
 		// 把借款单根据用户名分单是分类
 		int size = list.size();
 		
